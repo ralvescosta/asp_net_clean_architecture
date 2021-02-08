@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ThnBjJ/KdwZUpEyFpzdDzEa3cg0dO6O1jp9sO4aSsoR3dUwVrSq4ogoSilyaEqn6wnALsUpo1TG+GZA2bBcrOA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.WebAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
