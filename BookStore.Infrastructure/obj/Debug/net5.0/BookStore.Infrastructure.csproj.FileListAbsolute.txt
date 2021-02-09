@@ -1,0 +1,17 @@
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Infrastructure.deps.json
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Infrastructure.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\ref\BookStore.Infrastructure.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Infrastructure.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Application.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Domain.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Application.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Domain.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.csprojAssemblyReference.cache
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.AssemblyInfo.cs
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.csproj.CopyComplete
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\ref\BookStore.Infrastructure.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.pdb

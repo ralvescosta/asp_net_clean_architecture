@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
-    <ProjectReference Include="..\BookStroe.Infrastructure.IoC\BookStroe.Infrastructure.IoC.csproj" />
   </ItemGroup>
 
 </Project>
