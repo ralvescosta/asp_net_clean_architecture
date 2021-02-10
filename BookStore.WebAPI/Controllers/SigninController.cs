@@ -14,6 +14,12 @@ namespace BookStore.WebAPI.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
+        public IActionResult Signin()
+        {
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult Get()
         {

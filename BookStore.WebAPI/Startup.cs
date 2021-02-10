@@ -22,6 +22,7 @@ namespace BookStore.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRepositories();
+            services.AddApplications();
             services.AddControllers();
             services.AddAuthentication("Authentication")
                    .AddScheme<AuthenticationOptions, AuthenticationHandler>("Authentication", null);
@@ -51,6 +52,7 @@ namespace BookStore.WebAPI
             app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
