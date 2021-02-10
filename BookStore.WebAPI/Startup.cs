@@ -1,4 +1,5 @@
 using BookStore.Infrastructure.IoC;
+using BookStore.WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,8 @@ namespace BookStore.WebAPI
         {
             services.AddRepositories();
             services.AddControllers();
+            services.AddAuthentication("Authentication")
+                   .AddScheme<AuthenticationOptions, AuthenticationHandler>("Authentication", null);
             services.AddSwaggerGen(c => 
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
