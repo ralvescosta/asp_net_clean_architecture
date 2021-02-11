@@ -45,7 +45,7 @@ namespace BookStore.WebAPI.Controllers
                 await registerUserUseCase.Register(user);
                 return Ok();
             }
-            catch(DuplicatedException ex)
+            catch(EmailAlreadyExistException ex)
             {
                 var response = new Dictionary<string, string>
                 {

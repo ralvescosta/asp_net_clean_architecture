@@ -18,7 +18,7 @@ namespace BookStore.Application.UseCase
         }
         public Task<User> Register(UserRegistrationDTO user)
         {
-            throw new DuplicatedException();
+            throw new EmailAlreadyExistException();
         }
     }
 }
