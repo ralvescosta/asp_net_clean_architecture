@@ -2,5 +2,6 @@
 {
     public interface IHasher
     {
+        string Hashe(string value);
     }
 }

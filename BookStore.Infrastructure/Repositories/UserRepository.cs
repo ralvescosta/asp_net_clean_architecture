@@ -3,6 +3,7 @@ using BookStore.Domain.Entities;
 using BookStore.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookStore.Infrastructure.Repositories
 {
@@ -13,6 +14,7 @@ namespace BookStore.Infrastructure.Repositories
         {
             usersModel = new List<UserModel>();
         }
+
         public void CreateUser(User user)
         {
             var userModel = new UserModel()
@@ -28,6 +30,11 @@ namespace BookStore.Infrastructure.Repositories
             };
 
             usersModel.Add(userModel);
+        }
+
+        public User FindByEmail(Email email) 
+        {
+            return usersModel.Where(u => u.Email.ToString() == email.ToString()).FirstOrDefault();
         }
     }
 }

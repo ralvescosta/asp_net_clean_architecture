@@ -5,5 +5,7 @@ namespace BookStore.Application.Interfaces
     public interface IUserRepository
     {
         void CreateUser(User user);
+
+        User FindByEmail(Email email);
     }
 }
