@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace BookStore.Domain.ValueObjects
+namespace BookStore.Domain.Entities
 {
     public struct Email
     {

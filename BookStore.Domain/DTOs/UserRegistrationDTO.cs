@@ -1,4 +1,4 @@
-﻿using BookStore.Domain.ValueObjects;
+﻿using BookStore.Domain.Entities;
 
 namespace BookStore.Domain.DTOs
 {

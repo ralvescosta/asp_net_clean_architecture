@@ -1,22 +1,24 @@
-﻿using BookStore.Domain.DTOs;
+﻿using BookStore.Application.Exceptions;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class SignupController : ControllerBase
     {
-        private readonly IRegisterUser registerUser;
-        public UserController(IRegisterUser registerUser)
+        private readonly IRegisterUserUseCase registerUserUseCase;
+        public SignupController(IRegisterUserUseCase registerUserUseCase)
         {
-            this.registerUser = registerUser;
+            this.registerUserUseCase = registerUserUseCase;
         }
         [HttpPost]
-        public IActionResult CreateUser([FromBody] InputUserRegistrationDTO input)
+        public async Task<IActionResult> CreateUser([FromBody] InputUserRegistrationDTO input)
         {
             UserRegistrationDTO user;
             try
@@ -40,10 +42,19 @@ namespace BookStore.WebAPI.Controllers
 
             try
             {
-                registerUser.Register(user);
+                await registerUserUseCase.Register(user);
                 return Ok();
             }
-            catch(Exception ex)
+            catch(DuplicatedException ex)
+            {
+                var response = new Dictionary<string, string>
+                {
+                    { "message", ex.Message }
+                };
+
+                return Conflict(response);
+            }
+            catch (Exception ex)
             {
                 return Problem(ex.Message);
             }

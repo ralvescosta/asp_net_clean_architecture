@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Application.Interfaces
 {
-    public interface IBookRepository
+    public interface IHasher
     {
     }
 }

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Domain.Interfaces
+namespace BookStore.Domain.Enums
 {
-    public interface IGetAllBooks
+    public enum Permissions
     {
+        Unauthorized,
+        User,
+        Admin
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Services
+namespace BookStore.Application.Exceptions
 {
-    public class GetAllBooks
+    public class DuplicatedException : Exception
     {
     }
 }

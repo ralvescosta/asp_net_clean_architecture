@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Domain.ValueObjects
+namespace BookStore.Domain.Entities
 {
     public struct Password
     {
