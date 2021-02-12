@@ -6,7 +6,7 @@ namespace BookStore.Infrastructure.Services
     {
         public string Hashe(string value)
         {
-            return "830121Ç~KLÇ1238632";
+            return BCrypt.Net.BCrypt.HashPassword(value);
         }
     }
 }

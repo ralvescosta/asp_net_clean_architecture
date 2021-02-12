@@ -104,3 +104,4 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\obj\Debug\net5.0\Book
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\obj\Debug\net5.0\BookStore.Tests.genruntimeconfig.cache
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Moq.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\BCrypt.Net-Next.dll

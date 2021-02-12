@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ylzX0tYc/Z0UillIkZNsQ7E4Ih+68f+5CwTCpdxivmVg1HgzIjHke7JwAcy2tD0b+Ai+nWzCWDT+QqYlavQ0Bg==",
+  "dgSpecHash": "X31ihiKRAwk0s8QX1GXddHOIRumRdi25y/zAJ6XgN2+um/fha8Qp64u/edU4bYGF/xfFgGMhTV713DXhxZdK3g==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.WebAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
