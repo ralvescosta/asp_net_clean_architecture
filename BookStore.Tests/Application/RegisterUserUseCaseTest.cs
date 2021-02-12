@@ -52,5 +52,43 @@ namespace BookStore.Tests.Application
             Assert.ThrowsException<EmailAlreadyExistException>(() => registerUserUseCase.Register(input));
         }
 
+        [TestMethod]
+        public void ShouldThrowApplicationExpectionIfSomeErrorOccur() 
+        {
+            //Arranje
+            userRepository.Setup(m => m.CreateUser(It.IsAny<User>())).Throws(new Exception());
+            var input = new UserRegistrationDTO()
+            {
+                Name = "Fulano",
+                LastName = "DeTal",
+                Email = "fulano@detal.com",
+                Password = "Password"
+            };
+
+            //Act and Assert
+            Assert.ThrowsException<ApplicationException>(() => registerUserUseCase.Register(input));
+        }
+
+        [TestMethod]
+        public void ShouldReturnUserIfSuccess()
+        {
+            //Arranje
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns<User>(null);
+            userRepository.Setup(m => m.CreateUser(It.IsAny<User>()));
+            var input = new UserRegistrationDTO()
+            {
+                Name = "Fulano",
+                LastName = "DeTal",
+                Email = "fulano@detal.com",
+                Password = "Password"
+            };
+
+            //act
+            var result = registerUserUseCase.Register(input);
+
+            //Act and Assert
+            Assert.IsNotNull(result);
+        }
+
     }
 }

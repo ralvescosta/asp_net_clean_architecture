@@ -20,15 +20,33 @@ namespace BookStore.Application.UseCase
         }
         public Task<User> Register(UserRegistrationDTO input)
         {
-            var user = userRepository.FindByEmail(input.Email);
-            if (user != null)
-            {
-                throw new EmailAlreadyExistException();
-            }
+            CheckIfUserExist(input.Email);
+            return PersistUser(input);
+        }
 
+        #region privateMethods
+        private void CheckIfUserExist(Email email) 
+        {
+            User user;
             try
             {
-                user = new User()
+                user = userRepository.FindByEmail(email);
+            }
+            catch
+            {
+                throw new ApplicationException();
+            }
+            if (user != null)
+            {
+                throw new EmailAlreadyExistException("Email Already Exist");
+            }
+        }
+
+        private Task<User> PersistUser(UserRegistrationDTO input)
+        {
+            try
+            {
+                User user = new User()
                 {
                     Guid = Guid.NewGuid(),
                     Name = input.Name,
@@ -42,8 +60,9 @@ namespace BookStore.Application.UseCase
             }
             catch
             {
-                throw new Exception();
+                throw new ApplicationException();
             }
         }
+        #endregion
     }
 }
