@@ -1,6 +1,5 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
-using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
@@ -18,19 +17,19 @@ namespace BookStore.Application.UseCase
             this.userRepository = userRepository;
             this.hasher = hasher;
         }
-        public Task<User> Register(UserRegistrationDTO input)
+        public async Task<User> Register(UserRegistration input)
         {
-            CheckIfUserExist(input.Email);
-            return PersistUser(input);
+            await CheckIfUserExist(input.Email);
+            return await PersistUser(input);
         }
 
         #region privateMethods
-        private void CheckIfUserExist(Email email) 
+        private async Task CheckIfUserExist(Email email) 
         {
-            User user;
+            User user = null;
             try
             {
-                user = userRepository.FindByEmail(email);
+                user = await userRepository.FindByEmail(email);
             }
             catch
             {
@@ -42,7 +41,7 @@ namespace BookStore.Application.UseCase
             }
         }
 
-        private Task<User> PersistUser(UserRegistrationDTO input)
+        private Task<User> PersistUser(UserRegistration input)
         {
             try
             {
@@ -55,8 +54,7 @@ namespace BookStore.Application.UseCase
                     Permission = Permissions.User,
                     PasswordHash = hasher.Hashe(input.Password.ToString())
                 };
-                userRepository.CreateUser(user);
-                return Task.FromResult(user);
+                return userRepository.CreateUser(user);
             }
             catch
             {

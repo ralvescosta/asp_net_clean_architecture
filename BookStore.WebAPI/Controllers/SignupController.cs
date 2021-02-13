@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Domain.DTOs;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,10 +21,10 @@ namespace BookStore.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] InputUserRegistrationDTO input)
         {
-            UserRegistrationDTO user;
+            UserRegistration user;
             try
             {
-                user = new UserRegistrationDTO()
+                user = new UserRegistration()
                 {
                     Name = input.Name,
                     LastName = input.LastName,
@@ -44,7 +45,7 @@ namespace BookStore.WebAPI.Controllers
         }
 
         #region privateMethods
-        private async Task<IActionResult> ExecuteRegisterUserUseCase(UserRegistrationDTO user)
+        private async Task<IActionResult> ExecuteRegisterUserUseCase(UserRegistration user)
         {
             try
             {

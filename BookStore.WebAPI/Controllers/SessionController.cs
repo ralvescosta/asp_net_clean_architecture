@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using BookStore.Domain.DTOs.Inputs;
+using BookStore.Domain.Entities;
+using BookStore.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Controllers
 {
@@ -7,17 +12,49 @@ namespace BookStore.WebAPI.Controllers
     [Route("api/[controller]")]
     public class SessionController : ControllerBase
     {
-       private readonly ILogger<SessionController> _logger;
-
-        public SessionController(ILogger<SessionController> logger)
+        private readonly ISessionUseCase sessionUsecase;
+        public SessionController(ISessionUseCase sessionUsecase)
         {
-            _logger = logger;
+            this.sessionUsecase = sessionUsecase;
         }
 
         [HttpPost]
-        public IActionResult Session()
+        public async Task<IActionResult> Session([FromBody] InputSessionDTO input)
         {
-            return Ok();
+            UserCredentials credentials;
+            try
+            {
+                credentials = new UserCredentials()
+                {
+                    Email = input.Email,
+                    Password = input.Passward,
+                };
+            }
+            catch (ArgumentException ex)
+            {
+                var response = new Dictionary<string, string>
+                {
+                    { "message", ex.Message }
+                };
+                return BadRequest(response);
+            }
+
+            return await ExecuteSession(credentials);
         }
+
+        #region privateMethod
+        private async Task<IActionResult> ExecuteSession(UserCredentials credentials) 
+        { 
+            try
+            {
+                var result = await sessionUsecase.CreateUserSession(credentials);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+        #endregion
     }
 }

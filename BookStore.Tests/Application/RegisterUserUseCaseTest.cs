@@ -7,6 +7,7 @@ using BookStore.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Threading.Tasks;
 
 namespace BookStore.Tests.Application
 {
@@ -39,8 +40,8 @@ namespace BookStore.Tests.Application
         public void ShouldThrowEmailAlreadyExistExceptionIfEmailAlreadyExist() 
         {
             //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(mockedUser);
-            var input = new UserRegistrationDTO()
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult(mockedUser));
+            var input = new UserRegistration()
             {
                 Name = "Fulano",
                 LastName = "DeTal",
@@ -49,7 +50,7 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsException<EmailAlreadyExistException>(() => registerUserUseCase.Register(input));
+            Assert.ThrowsException<EmailAlreadyExistException>(async () => await registerUserUseCase.Register(input));
         }
 
         [TestMethod]
@@ -57,7 +58,7 @@ namespace BookStore.Tests.Application
         {
             //Arranje
             userRepository.Setup(m => m.CreateUser(It.IsAny<User>())).Throws(new Exception());
-            var input = new UserRegistrationDTO()
+            var input = new UserRegistration()
             {
                 Name = "Fulano",
                 LastName = "DeTal",
@@ -66,16 +67,16 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsException<ApplicationException>(() => registerUserUseCase.Register(input));
+            Assert.ThrowsException<ApplicationException>(async () => await registerUserUseCase.Register(input));
         }
 
         [TestMethod]
         public void ShouldReturnUserIfSuccess()
         {
             //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns<User>(null);
-            userRepository.Setup(m => m.CreateUser(It.IsAny<User>()));
-            var input = new UserRegistrationDTO()
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult<User>(null));
+            userRepository.Setup(m => m.CreateUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
+            var input = new UserRegistration()
             {
                 Name = "Fulano",
                 LastName = "DeTal",
