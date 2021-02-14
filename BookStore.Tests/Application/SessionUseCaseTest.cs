@@ -55,7 +55,7 @@ namespace BookStore.Tests.Application
         [TestMethod]
         public void ShouldTrhowWrongPasswordExceptionIfPasswordNotMatch()
         {
-            userRepository.Setup(m => m.FindByEmail(userMock.Email.ToString())).ReturnsAsync(userMock);
+            userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
             hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
             Assert.ThrowsExceptionAsync<WrongPasswordException>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
@@ -65,7 +65,7 @@ namespace BookStore.Tests.Application
         public void ShouldTrhowUnauthorizedExcpetionIfUserPermissionIsUnauthorized() 
         {
             userMock.Permission = Permissions.Unauthorized;
-            userRepository.Setup(m => m.FindByEmail(userMock.Email.ToString())).ReturnsAsync(userMock);
+            userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
             hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             Assert.ThrowsExceptionAsync<UnauthorizedExcpetion>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
@@ -74,7 +74,7 @@ namespace BookStore.Tests.Application
         [TestMethod]
         public async Task ShouldRetornSessionIfSuccessfuly() 
         {
-            userRepository.Setup(m => m.FindByEmail(userMock.Email.ToString())).ReturnsAsync(userMock);
+            userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
             hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
