@@ -26,7 +26,7 @@ namespace BookStore.Application.UseCase
         #region privateMethods
         private async Task CheckIfUserExist(Email email) 
         {
-            User user = null;
+            User user;
             try
             {
                 user = await userRepository.FindByEmail(email);
@@ -54,7 +54,7 @@ namespace BookStore.Application.UseCase
                     Permission = Permissions.User,
                     PasswordHash = hasher.Hashe(input.Password.ToString())
                 };
-                return userRepository.CreateUser(user);
+                return userRepository.SaveUser(user);
             }
             catch
             {

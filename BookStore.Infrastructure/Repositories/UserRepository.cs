@@ -16,10 +16,14 @@ namespace BookStore.Infrastructure.Repositories
             usersModel = new List<UserModel>();
         }
 
-        public Task<User> CreateUser(User user)
+        public Task<User> SaveUser(User user)
         {
+            var last = usersModel.LastOrDefault();
+            var Id = last == null ? 1 : last.Id + 1;
+
             var userModel = new UserModel()
             {
+                Id = Id,
                 Guid = user.Guid,
                 Name = user.Name,
                 LastName = user.Name,

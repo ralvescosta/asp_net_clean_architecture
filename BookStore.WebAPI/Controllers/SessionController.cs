@@ -1,8 +1,8 @@
-﻿using BookStore.Domain.DTOs.Inputs;
+﻿using BookStore.Application.Exceptions;
+using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,14 +27,14 @@ namespace BookStore.WebAPI.Controllers
                 credentials = new UserCredentials()
                 {
                     Email = input.Email,
-                    Password = input.Passward,
+                    Password = input.Password,
                 };
             }
-            catch (ArgumentException ex)
+            catch
             {
                 var response = new Dictionary<string, string>
                 {
-                    { "message", ex.Message }
+                    { "message", "Wrong Body" }
                 };
                 return BadRequest(response);
             }
@@ -50,9 +50,17 @@ namespace BookStore.WebAPI.Controllers
                 var result = await sessionUsecase.CreateUserSession(credentials);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (NotFoundException) 
             {
-                return Problem(ex.Message);
+                var response = new Dictionary<string, string>
+                {
+                    { "message", "Email Not Found" }
+                };
+                return NotFound(response);
+            }
+            catch
+            {
+                return Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error");
             }
         }
         #endregion

@@ -5,7 +5,7 @@ namespace BookStore.Application.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> CreateUser(User user);
+        Task<User> SaveUser(User user);
 
         Task<User> FindByEmail(Email email);
     }

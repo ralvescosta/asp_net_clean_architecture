@@ -49,7 +49,6 @@ namespace BookStore.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
             app.UseAuthentication();

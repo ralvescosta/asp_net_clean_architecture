@@ -50,14 +50,14 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsException<EmailAlreadyExistException>(async () => await registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(async () => await registerUserUseCase.Register(input));
         }
 
         [TestMethod]
         public void ShouldThrowApplicationExpectionIfSomeErrorOccur() 
         {
             //Arranje
-            userRepository.Setup(m => m.CreateUser(It.IsAny<User>())).Throws(new Exception());
+            userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Throws(new Exception());
             var input = new UserRegistration()
             {
                 Name = "Fulano",
@@ -67,15 +67,15 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsException<ApplicationException>(async () => await registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<ApplicationException>(async () => await registerUserUseCase.Register(input));
         }
 
         [TestMethod]
-        public void ShouldReturnUserIfSuccess()
+        public async Task ShouldReturnUserIfSuccess()
         {
             //Arranje
             userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult<User>(null));
-            userRepository.Setup(m => m.CreateUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
+            userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
             var input = new UserRegistration()
             {
                 Name = "Fulano",
@@ -85,7 +85,7 @@ namespace BookStore.Tests.Application
             };
 
             //act
-            var result = registerUserUseCase.Register(input);
+            var result = await registerUserUseCase.Register(input);
 
             //Act and Assert
             Assert.IsNotNull(result);
