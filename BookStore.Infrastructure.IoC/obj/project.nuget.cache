@@ -1,12 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "Pjx4ECMCBs98P1BRFozorzVHu8w5EWsBahtnHfq/ALYMnVQtb2JY/jFk9tDPfh7HzW1miY/rnyGBQukI+zfsUA==",
+  "dgSpecHash": "lGOyyBmJwNAIKe3eG318VHPiNTRRirfVQVoAR+2n/7gwEt5doQI7Qh4jIWYeCHmxQApsHYJn8e5jxl/jAJacVw==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Infrastructure.IoC\\BookStore.Infrastructure.IoC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
-    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.8.0\\microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.logging\\6.8.0\\microsoft.identitymodel.logging.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.8.0\\system.identitymodel.tokens.jwt.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

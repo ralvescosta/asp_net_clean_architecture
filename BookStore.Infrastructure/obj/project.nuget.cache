@@ -1,10 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "mtRCjumS1VI9L6RvEaj4AyxG07iHnY6TT9HKBcqnQQXzTBBAEu0Mz2zRYG1gTI3jPXykHh37qQdUn48SzrlVTA==",
+  "dgSpecHash": "KbeNkf6qgeKwgLkGfYQZi/CZ7FQB7a8UYwxeQTzVoA4bEuDg/tA+ne/N1/NitCl0am011a7EbrDOO+qnv5e7Mw==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Infrastructure\\BookStore.Infrastructure.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
+    "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.8.0\\microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.logging\\6.8.0\\microsoft.identitymodel.logging.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.8.0\\system.identitymodel.tokens.jwt.6.8.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

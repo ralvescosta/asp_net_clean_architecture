@@ -46,3 +46,7 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\ref
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\BookStore.WebAPI.pdb
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\BookStore.WebAPI.genruntimeconfig.cache
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\BCrypt.Net-Next.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\System.IdentityModel.Tokens.Jwt.dll
