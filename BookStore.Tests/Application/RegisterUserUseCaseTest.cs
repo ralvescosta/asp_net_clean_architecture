@@ -50,11 +50,28 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(async () => await registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(() => registerUserUseCase.Register(input));
         }
 
         [TestMethod]
-        public void ShouldThrowApplicationExpectionIfSomeErrorOccur() 
+        public void ShouldThrowApplicationExpectionIfSomeErrorOccurInFindByEmail()
+        {
+            //Arranje
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Throws(new Exception());
+            var input = new UserRegistration()
+            {
+                Name = "Fulano",
+                LastName = "DeTal",
+                Email = "fulano@detal.com",
+                Password = "Password"
+            };
+
+            //Act and Assert
+            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(input));
+        }
+
+        [TestMethod]
+        public void ShouldThrowApplicationExpectionIfSomeErrorOccurInSaveUser() 
         {
             //Arranje
             userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Throws(new Exception());
@@ -67,7 +84,7 @@ namespace BookStore.Tests.Application
             };
 
             //Act and Assert
-            Assert.ThrowsExceptionAsync<ApplicationException>(async () => await registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(input));
         }
 
         [TestMethod]
