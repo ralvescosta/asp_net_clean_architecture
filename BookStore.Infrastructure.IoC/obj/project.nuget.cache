@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "O66qT77eJ2Q+f0ybqQfvfIoyhN65U7u2yLqUV6Lm8qA9ubC+xxbvvLTacNkPGNe6vVGG1K9RU2sPEvZ03t/zZw==",
+  "dgSpecHash": "Pjx4ECMCBs98P1BRFozorzVHu8w5EWsBahtnHfq/ALYMnVQtb2JY/jFk9tDPfh7HzW1miY/rnyGBQukI+zfsUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Infrastructure.IoC\\BookStore.Infrastructure.IoC.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"
   ],

@@ -4,9 +4,14 @@ namespace BookStore.Infrastructure.Services
 {
     public class Hasher : IHasher
     {
+        public bool CompareHashe(string real, string digest)
+        {
+            return BCrypt.Net.BCrypt.Verify(real, digest);
+        }
+
         public string Hashe(string value)
         {
-            return "830121Ç~KLÇ1238632";
+            return BCrypt.Net.BCrypt.HashPassword(value);
         }
     }
 }

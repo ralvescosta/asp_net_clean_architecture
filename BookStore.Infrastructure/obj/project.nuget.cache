@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xMKb+YTvaQ3l2Y4upz3f9EE6cay7/cI8sJw4QoZUxuHRMzEx/nKjFCwv0NmHx4vQVYiy0TKwajFPPwFvy8Ajug==",
+  "dgSpecHash": "mtRCjumS1VI9L6RvEaj4AyxG07iHnY6TT9HKBcqnQQXzTBBAEu0Mz2zRYG1gTI3jPXykHh37qQdUn48SzrlVTA==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Infrastructure\\BookStore.Infrastructure.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\rafael\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

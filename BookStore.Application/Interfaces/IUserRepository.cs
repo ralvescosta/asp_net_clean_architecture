@@ -1,11 +1,12 @@
 ﻿using BookStore.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace BookStore.Application.Interfaces
 {
     public interface IUserRepository
     {
-        void CreateUser(User user);
+        Task<User> SaveUser(User user);
 
-        User FindByEmail(Email email);
+        Task<User> FindByEmail(Email email);
     }
 }

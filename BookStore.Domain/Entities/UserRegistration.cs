@@ -1,8 +1,6 @@
-﻿using BookStore.Domain.Entities;
-
-namespace BookStore.Domain.DTOs
+﻿namespace BookStore.Domain.Entities
 {
-    public class UserRegistrationDTO
+    public class UserRegistration
     {
         public string Name { get; set; }
         public string LastName { get; set; }        

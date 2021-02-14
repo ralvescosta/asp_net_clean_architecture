@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Domain.DTOs;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,10 +21,10 @@ namespace BookStore.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] InputUserRegistrationDTO input)
         {
-            UserRegistrationDTO user;
+            UserRegistration user;
             try
             {
-                user = new UserRegistrationDTO()
+                user = new UserRegistration()
                 {
                     Name = input.Name,
                     LastName = input.LastName,
@@ -40,12 +41,18 @@ namespace BookStore.WebAPI.Controllers
                 return BadRequest(response);
             }
 
+            return await ExecuteRegisterUserUseCase(user);
+        }
+
+        #region privateMethods
+        private async Task<IActionResult> ExecuteRegisterUserUseCase(UserRegistration user)
+        {
             try
             {
                 await registerUserUseCase.Register(user);
                 return Ok();
             }
-            catch(EmailAlreadyExistException ex)
+            catch (EmailAlreadyExistException ex)
             {
                 var response = new Dictionary<string, string>
                 {
@@ -59,5 +66,6 @@ namespace BookStore.WebAPI.Controllers
                 return Problem(ex.Message);
             }
         }
+        #endregion
     }
 }

@@ -45,3 +45,4 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\Boo
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\ref\BookStore.WebAPI.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\BookStore.WebAPI.pdb
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\obj\Debug\net5.0\BookStore.WebAPI.genruntimeconfig.cache
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\BCrypt.Net-Next.dll
