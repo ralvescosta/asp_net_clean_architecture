@@ -30,7 +30,7 @@ namespace BookStore.WebAPI.Middleware
         {
 
             if (!Request.Headers.ContainsKey("Authorization"))
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail(""));
 
             string authorizationHeader = Request.Headers["Authorization"];
             if (string.IsNullOrEmpty(authorizationHeader))
@@ -40,14 +40,14 @@ namespace BookStore.WebAPI.Middleware
 
             if (!authorizationHeader.StartsWith("bearer", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail(""));
             }
 
             string token = authorizationHeader.Substring("bearer".Length).Trim();
 
             if (string.IsNullOrEmpty(token))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail(""));
             }
 
             try

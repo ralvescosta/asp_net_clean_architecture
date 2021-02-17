@@ -41,6 +41,7 @@ namespace BookStore.WebAPI
                     }
                 });
             });
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -105,3 +105,7 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\obj\Debug\net5.0\Book
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Moq.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\BCrypt.Net-Next.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll

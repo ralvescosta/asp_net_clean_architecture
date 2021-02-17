@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rOg/NSiBpFyMsFD1bWiKtg9NYTzgTTzIStGTcEt6MjMJKdz/u6GiJ9uf4EqzWpe0SaDtumVJI5+gnwPvCdG2Jw==",
+  "dgSpecHash": "xDQNNJoRT03AfFbJV3zDeyLT3QhLsRyskHLXdF8TNWEWx0CRxNGA5OwLwBIyX9pzpMfVikCojwnCZCZTC8uDdw==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.WebAPI.csproj",
   "expectedPackageFiles": [
