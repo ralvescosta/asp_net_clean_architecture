@@ -1,7 +1,6 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
-using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,6 +17,7 @@ namespace BookStore.Tests.Application
         private Mock<IUserRepository> userRepository;
         private Mock<IHasher> hasher;
         private User mockedUser;
+        private UserRegistration mockedUserRegistration;
 
         [TestInitialize]
         public void TestInitialize() 
@@ -34,6 +34,14 @@ namespace BookStore.Tests.Application
                 PasswordHash = "PasswordHash",
                 Permission = Permissions.User,
             };
+
+            mockedUserRegistration = new UserRegistration()
+            {
+                Name = "Fulano",
+                LastName = "DeTal",
+                Email = "fulano@detal.com",
+                Password = "Password"
+            };
         }
 
         [TestMethod]
@@ -41,16 +49,9 @@ namespace BookStore.Tests.Application
         {
             //Arranje
             userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult(mockedUser));
-            var input = new UserRegistration()
-            {
-                Name = "Fulano",
-                LastName = "DeTal",
-                Email = "fulano@detal.com",
-                Password = "Password"
-            };
 
             //Act and Assert
-            Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(() => registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(() => registerUserUseCase.Register(mockedUserRegistration));
         }
 
         [TestMethod]
@@ -58,16 +59,9 @@ namespace BookStore.Tests.Application
         {
             //Arranje
             userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Throws(new Exception());
-            var input = new UserRegistration()
-            {
-                Name = "Fulano",
-                LastName = "DeTal",
-                Email = "fulano@detal.com",
-                Password = "Password"
-            };
 
             //Act and Assert
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(mockedUserRegistration));
         }
 
         [TestMethod]
@@ -75,16 +69,9 @@ namespace BookStore.Tests.Application
         {
             //Arranje
             userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Throws(new Exception());
-            var input = new UserRegistration()
-            {
-                Name = "Fulano",
-                LastName = "DeTal",
-                Email = "fulano@detal.com",
-                Password = "Password"
-            };
 
             //Act and Assert
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(input));
+            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(mockedUserRegistration));
         }
 
         [TestMethod]
@@ -93,16 +80,9 @@ namespace BookStore.Tests.Application
             //Arranje
             userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult<User>(null));
             userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
-            var input = new UserRegistration()
-            {
-                Name = "Fulano",
-                LastName = "DeTal",
-                Email = "fulano@detal.com",
-                Password = "Password"
-            };
 
             //act
-            var result = await registerUserUseCase.Register(input);
+            var result = await registerUserUseCase.Register(mockedUserRegistration);
 
             //Act and Assert
             Assert.IsNotNull(result);

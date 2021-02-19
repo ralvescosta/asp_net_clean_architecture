@@ -3,6 +3,8 @@ using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
+using BookStore.Shared.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace BookStore.Application.UseCase
@@ -12,39 +14,58 @@ namespace BookStore.Application.UseCase
         private readonly IUserRepository userRepository;
         private readonly IHasher hasher;
         private readonly ITokenManager tokenManaher;
-        public SessionUseCase(IUserRepository userRepository, IHasher hasher, ITokenManager tokenManaher) 
+        private readonly IConfigurations configs;
+        public SessionUseCase(IUserRepository userRepository, IHasher hasher, ITokenManager tokenManaher, IConfigurations configs) 
         {
             this.userRepository = userRepository;
             this.hasher = hasher;
             this.tokenManaher = tokenManaher;
+            this.configs = configs;
         }
         public async Task<Session> CreateUserSession(UserCredentials credentials)
         {
+            var user = await FindUserOrTrhow(credentials);
+
+            PasswordAndPermissionValidate(credentials, user);
+            var expireIn = DateTime.UtcNow.AddHours(configs.JwtExpiredHours);
+            var tokenData = new TokenData()
+            {
+                Id = user.Id,
+                Guid = user.Guid.ToString(),
+                ExpirationDate = expireIn
+            };
+            return new Session()
+            {
+                AccessToken = tokenManaher.CreateToken(tokenData),
+                ExpireIn = expireIn
+            };
+        }
+
+        #region privateMethods
+        private async Task<User> FindUserOrTrhow(UserCredentials credentials)
+        {
             var user = await userRepository.FindByEmail(credentials.Email);
-            if(user == null)
+            if (user == null)
             {
                 throw new NotFoundException();
             }
 
+            return user;
+        }
+
+        private void PasswordAndPermissionValidate(UserCredentials credentials, User user)
+        {
             var result = hasher.CompareHashe(credentials.Password.ToString(), user.PasswordHash);
             if (!result)
             {
                 throw new WrongPasswordException();
             }
 
-            if(user.Permission == Permissions.Unauthorized)
+            if (user.Permission == Permissions.Unauthorized)
             {
                 throw new UnauthorizedExcpetion();
             }
-            var tokenData = new TokenData()
-            {
-                Id = 1,
-                Guid = user.Guid.ToString(),
-            };
-            return new Session() 
-            { 
-                AccessToken = tokenManaher.CreateToken(tokenData)
-            };
         }
+        #endregion
     }
 }

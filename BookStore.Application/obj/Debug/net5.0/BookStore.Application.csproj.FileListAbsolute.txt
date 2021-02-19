@@ -13,3 +13,5 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\obj\Debug\net5.
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\obj\Debug\net5.0\BookStore.Application.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\obj\Debug\net5.0\ref\BookStore.Application.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\obj\Debug\net5.0\BookStore.Application.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\bin\Debug\net5.0\BookStore.Shared.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Application\bin\Debug\net5.0\BookStore.Shared.pdb

@@ -45,6 +45,7 @@ namespace BookStore.Infrastructure.Repositories
                     .Where(u => u.Email.ToString() == email.ToString())
                     .Select(u => new User() 
                     {
+                        Id = u.Id,
                         Guid = u.Guid,
                         Name = u.Name,
                         LastName = u.Name,

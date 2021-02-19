@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using BookStore.Domain.Entities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -28,30 +28,28 @@ namespace BookStore.WebAPI.Middleware
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-
             if (!Request.Headers.ContainsKey("Authorization"))
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail("Authorization"));
 
             string authorizationHeader = Request.Headers["Authorization"];
             if (string.IsNullOrEmpty(authorizationHeader))
             {
                 return Task.FromResult(AuthenticateResult.NoResult());
             }
-
-            if (!authorizationHeader.StartsWith("bearer", StringComparison.OrdinalIgnoreCase))
+            if (!authorizationHeader.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail("Authorization"));
             }
 
-            string token = authorizationHeader.Substring("bearer".Length).Trim();
-
+            string token = authorizationHeader.Substring("Bearer".Length).Trim();
             if (string.IsNullOrEmpty(token))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                return Task.FromResult(AuthenticateResult.Fail(""));
             }
 
             try
             {
+                Request.HttpContext.Items["auth"] = new AuthenticatedUser() { };
                 return Task.FromResult(validateToken(token));
             }
             catch (Exception ex)
@@ -61,9 +59,7 @@ namespace BookStore.WebAPI.Middleware
         }
 
         private AuthenticateResult validateToken(string token)
-        {
-            
-            
+        {           
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, ""),
