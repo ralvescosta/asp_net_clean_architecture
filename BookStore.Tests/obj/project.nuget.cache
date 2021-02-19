@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XDS6TcZeY73jBEBCLBntd23FSMgcMDJ0oarj2/x/Y6byNIRiLjgm8j6MTQEarw4BqLNDtl0GCCSE0N1g/JpNTw==",
+  "dgSpecHash": "+FfnoA/yryNozDcyeubj1N2bNOlsIjhMR1Faune8aWlB4BpwMHW+dIwb/Bs33/Gdh7HTEoXZk0+T4Y5CGX0HSQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Tests\\BookStore.Tests.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,10 @@
     "C:\\Users\\rafael\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.codecoverage\\16.7.1\\microsoft.codecoverage.16.7.1.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration\\5.0.0\\microsoft.extensions.configuration.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration.binder\\5.0.0\\microsoft.extensions.configuration.binder.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.8.0\\microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.logging\\6.8.0\\microsoft.identitymodel.logging.6.8.0.nupkg.sha512",
     "C:\\Users\\rafael\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",

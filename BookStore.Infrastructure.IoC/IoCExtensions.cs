@@ -3,6 +3,8 @@ using BookStore.Application.UseCase;
 using BookStore.Domain.Interfaces;
 using BookStore.Infrastructure.Repositories;
 using BookStore.Infrastructure.Services;
+using BookStore.Shared.Configurations;
+using BookStore.Shared.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookStore.Infrastructure.IoC
@@ -21,6 +23,12 @@ namespace BookStore.Infrastructure.IoC
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<IHasher, Hasher>();
             services.AddScoped<ITokenManager, TokenManager>();
+            return services;
+        }
+
+        public static IServiceCollection AddConfigurations(this IServiceCollection services) 
+        {
+            services.AddSingleton<IConfigurations, Configurations>();
             return services;
         }
     }

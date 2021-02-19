@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "NhGoG3KKGs9MYVV38DfqUEJa0dr67KcSHQriikPW3bjMVSD4S3p+MczrHTSTeGOMGunf3g0MDTm+MhfNYUCDRg==",
+  "dgSpecHash": "pB4/wHvinXe4eXbDAlLDrIsJsOOPbPbG8okbgwttFg8zNW5SHxbQdBfC8eNTxDKI1gVkuQeRzM91Ea6Njk7VAQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Application\\BookStore.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration\\5.0.0\\microsoft.extensions.configuration.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.configuration.binder\\5.0.0\\microsoft.extensions.configuration.binder.5.0.0.nupkg.sha512",
+    "C:\\Users\\rafael\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
