@@ -3,6 +3,7 @@ using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
+using BookStore.Shared.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -17,6 +18,7 @@ namespace BookStore.Tests.Application
         private Mock<IUserRepository> userRepository;
         private Mock<IHasher> hasher;
         private Mock<ITokenManager> tokenManager;
+        private Mock<IConfigurations> configurations;
         private User userMock;
         private UserCredentials userCredentialsMock;
         
@@ -26,7 +28,8 @@ namespace BookStore.Tests.Application
             userRepository = new Mock<IUserRepository>();
             hasher = new Mock<IHasher>();
             tokenManager = new Mock<ITokenManager>();
-            sessionUseCase = new SessionUseCase(userRepository.Object, hasher.Object, tokenManager.Object);
+            configurations = new Mock<IConfigurations>();
+            sessionUseCase = new SessionUseCase(userRepository.Object, hasher.Object, tokenManager.Object, configurations.Object);
 
             userMock = new User()
             {
