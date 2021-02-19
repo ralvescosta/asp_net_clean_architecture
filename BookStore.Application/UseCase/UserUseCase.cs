@@ -8,7 +8,7 @@ namespace BookStore.Application.UseCase
 {
     public class UserUseCase : IUserUseCase
     {
-        public Task<IEnumerable<User>> GetAllUsers()
+        public Task<IEnumerable<User>> GetAllUsers(AuthenticatedUser auth)
         {
             var users = new List<User>().AsEnumerable();
             return Task.FromResult(users);

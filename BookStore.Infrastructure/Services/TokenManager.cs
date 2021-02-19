@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
+using BookStore.Shared.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,6 +11,11 @@ namespace BookStore.Infrastructure.Services
 {
     public class TokenManager :  ITokenManager
     {
+        private readonly IConfigurations configs;
+        public TokenManager(IConfigurations configs) 
+        {
+            this.configs = configs;
+        }
         public string CreateToken(TokenData input)
         {
             var claims = new[]
@@ -17,20 +23,28 @@ namespace BookStore.Infrastructure.Services
                 new Claim("Id", input.Id.ToString()),
                 new Claim("Guid", input.Guid),
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("qw456q4w56ewq456eqwe456wqe456654qweqw6e45"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configs.JwtScrete));
             var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddHours(1);
 
             var token = new JwtSecurityToken(
                 issuer: null,
                 audience: null,
                 claims: claims,
-                expires: expiration,
+                expires: input.ExpirationDate,
                 signingCredentials: credential
             );
 
             var result = new JwtSecurityTokenHandler().WriteToken(token);
             return result;
+        }
+
+        public TokenData VerifyToken(string Token)
+        {
+            return new TokenData 
+            { 
+                Id = 1,
+                Guid = Guid.NewGuid().ToString()
+            };
         }
     }
 }

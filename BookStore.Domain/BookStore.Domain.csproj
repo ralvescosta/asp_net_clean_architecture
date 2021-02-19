@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookStore.Shared\BookStore.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

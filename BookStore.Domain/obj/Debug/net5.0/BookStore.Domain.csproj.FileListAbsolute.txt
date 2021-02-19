@@ -10,3 +10,6 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\obj\Debug\net5.0\Boo
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\obj\Debug\net5.0\ref\BookStore.Domain.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\obj\Debug\net5.0\BookStore.Domain.pdb
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\obj\Debug\net5.0\BookStore.Domain.csprojAssemblyReference.cache
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\bin\Debug\net5.0\BookStore.Shared.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\bin\Debug\net5.0\BookStore.Shared.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Domain\obj\Debug\net5.0\BookStore.Domain.csproj.CopyComplete

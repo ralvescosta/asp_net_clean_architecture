@@ -228,8 +228,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "BookStore.Domain": "1.0.0",
-          "BookStore.Shared": "1.0.0"
+          "BookStore.Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/BookStore.Application.dll": {}

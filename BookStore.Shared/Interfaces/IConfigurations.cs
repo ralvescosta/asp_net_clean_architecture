@@ -3,5 +3,7 @@
     public interface IConfigurations
     {
         string JwtScrete { get; }
+
+        int JwtExpiredHours { get; }
     }
 }

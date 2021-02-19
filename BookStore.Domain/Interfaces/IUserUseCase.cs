@@ -6,6 +6,6 @@ namespace BookStore.Domain.Interfaces
 {
     public interface IUserUseCase
     {
-        Task<IEnumerable<User>> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsers(AuthenticatedUser auth);
     }
 }

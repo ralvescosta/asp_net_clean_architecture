@@ -50,3 +50,5 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\BookStore.Shared.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.WebAPI\bin\net5.0\BookStore.Shared.pdb

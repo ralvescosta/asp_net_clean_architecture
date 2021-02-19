@@ -12,5 +12,7 @@ namespace BookStore.Shared.Configurations
         }
 
         public string JwtScrete => appConfigs.GetValue<string>("JwtSecrete");
+
+        public int JwtExpiredHours => appConfigs.GetValue<int>("JwtExpiredHours");
     }
 }

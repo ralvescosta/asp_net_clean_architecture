@@ -25,7 +25,8 @@ namespace BookStore.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await userUseCase.GetAllUsers();
+            var auth = HttpContext.Items["auth"] as AuthenticatedUser;
+            var users = await userUseCase.GetAllUsers(auth);
             return Ok(users);
         }
     }

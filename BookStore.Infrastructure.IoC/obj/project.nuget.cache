@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PkXgkP7nKyyzxVS+ktWdRPxzlSgzwPkrDTcep5nsn2vFKS+6jTP3e7xp/ScEA+SzghE8HOm2gnYo0QyRFNL93g==",
+  "dgSpecHash": "UgqzKCoJIuwySxVyaTZmAJWQnBSL7sUttvQatu/1hOgutczcu5TNOYWclR1zUcvmcOzHfSABSkyujPsFxwqJxQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Infrastructure.IoC\\BookStore.Infrastructure.IoC.csproj",
   "expectedPackageFiles": [

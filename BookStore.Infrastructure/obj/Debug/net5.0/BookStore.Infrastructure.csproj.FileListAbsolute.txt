@@ -15,3 +15,5 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\ne
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\ref\BookStore.Infrastructure.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\obj\Debug\net5.0\BookStore.Infrastructure.pdb
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Shared.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Infrastructure\bin\Debug\net5.0\BookStore.Shared.pdb

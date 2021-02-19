@@ -31,9 +31,6 @@
             "projectReferences": {
               "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Domain\\BookStore.Domain.csproj": {
                 "projectPath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Domain\\BookStore.Domain.csproj"
-              },
-              "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Shared\\BookStore.Shared.csproj": {
-                "projectPath": "C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.Shared\\BookStore.Shared.csproj"
               }
             }
           }
