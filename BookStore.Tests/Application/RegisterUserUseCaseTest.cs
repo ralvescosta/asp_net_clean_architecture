@@ -15,7 +15,7 @@ namespace BookStore.Tests.Application
     {
         private RegisterUserUseCase registerUserUseCase;
         private Mock<IUserRepository> userRepository;
-        private Mock<IHasher> hasher;
+        private Mock<IHasherService> hasher;
         private User mockedUser;
         private UserRegistration mockedUserRegistration;
 
@@ -23,7 +23,7 @@ namespace BookStore.Tests.Application
         public void TestInitialize() 
         {
             userRepository = new Mock<IUserRepository>();
-            hasher = new Mock<IHasher>();
+            hasher = new Mock<IHasherService>();
             registerUserUseCase = new RegisterUserUseCase(userRepository.Object, hasher.Object);
             mockedUser = new User()
             {

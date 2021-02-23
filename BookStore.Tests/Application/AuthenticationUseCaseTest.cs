@@ -1,5 +1,7 @@
-﻿using BookStore.Application.UseCase;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Application.UseCase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 
 namespace BookStore.Tests.Application
@@ -8,11 +10,15 @@ namespace BookStore.Tests.Application
     public class AuthenticationUseCaseTest
     {
         private AuthenticationUseCase authUseCase;
+        private Mock<IUserRepository> userRepository;
+        private Mock<ITokenManagerService> tokenManagerService;
 
         [TestInitialize]
         public void TestInitialize() 
         {
-            authUseCase = new AuthenticationUseCase();
+            tokenManagerService = new Mock<ITokenManagerService>();
+            userRepository = new Mock<IUserRepository>();
+            authUseCase = new AuthenticationUseCase(tokenManagerService.Object, userRepository.Object);
         }
 
         [TestMethod]

@@ -11,8 +11,8 @@ namespace BookStore.Application.UseCase
     public class RegisterUserUseCase : IRegisterUserUseCase
     {
         private readonly IUserRepository userRepository;
-        private readonly IHasher hasher;
-        public RegisterUserUseCase(IUserRepository userRepository, IHasher hasher)
+        private readonly IHasherService hasher;
+        public RegisterUserUseCase(IUserRepository userRepository, IHasherService hasher)
         {
             this.userRepository = userRepository;
             this.hasher = hasher;

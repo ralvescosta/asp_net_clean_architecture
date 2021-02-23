@@ -12,14 +12,14 @@ namespace BookStore.Application.UseCase
     public class SessionUseCase : ISessionUseCase
     {
         private readonly IUserRepository userRepository;
-        private readonly IHasher hasher;
-        private readonly ITokenManager tokenManaher;
+        private readonly IHasherService hasher;
+        private readonly ITokenManagerService tokenManaherService;
         private readonly IConfigurations configs;
-        public SessionUseCase(IUserRepository userRepository, IHasher hasher, ITokenManager tokenManaher, IConfigurations configs) 
+        public SessionUseCase(IUserRepository userRepository, IHasherService hasher, ITokenManagerService tokenManaherService, IConfigurations configs) 
         {
             this.userRepository = userRepository;
             this.hasher = hasher;
-            this.tokenManaher = tokenManaher;
+            this.tokenManaherService = tokenManaherService;
             this.configs = configs;
         }
         public async Task<Session> CreateUserSession(UserCredentials credentials)
@@ -36,7 +36,7 @@ namespace BookStore.Application.UseCase
             };
             return new Session()
             {
-                AccessToken = tokenManaher.CreateToken(tokenData),
+                AccessToken = tokenManaherService.CreateToken(tokenData),
                 ExpireIn = expireIn
             };
         }
