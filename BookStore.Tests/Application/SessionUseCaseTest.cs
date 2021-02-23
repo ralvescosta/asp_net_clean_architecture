@@ -16,8 +16,8 @@ namespace BookStore.Tests.Application
     {
         private SessionUseCase sessionUseCase;
         private Mock<IUserRepository> userRepository;
-        private Mock<IHasher> hasher;
-        private Mock<ITokenManager> tokenManager;
+        private Mock<IHasherService> hasher;
+        private Mock<ITokenManagerService> tokenManagerService;
         private Mock<IConfigurations> configurations;
         private User userMock;
         private UserCredentials userCredentialsMock;
@@ -26,10 +26,10 @@ namespace BookStore.Tests.Application
         public void TestInitialize()
         {
             userRepository = new Mock<IUserRepository>();
-            hasher = new Mock<IHasher>();
-            tokenManager = new Mock<ITokenManager>();
+            hasher = new Mock<IHasherService>();
+            tokenManagerService = new Mock<ITokenManagerService>();
             configurations = new Mock<IConfigurations>();
-            sessionUseCase = new SessionUseCase(userRepository.Object, hasher.Object, tokenManager.Object, configurations.Object);
+            sessionUseCase = new SessionUseCase(userRepository.Object, hasher.Object, tokenManagerService.Object, configurations.Object);
 
             userMock = new User()
             {

@@ -22,8 +22,8 @@ namespace BookStore.Infrastructure.IoC
         public static IServiceCollection AddRepositories(this IServiceCollection services) 
         {
             services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddScoped<IHasher, Hasher>();
-            services.AddScoped<ITokenManager, TokenManager>();
+            services.AddScoped<IHasherService, HasherService>();
+            services.AddScoped<ITokenManagerService, TokenManagerService>();
             return services;
         }
 
