@@ -1,8 +1,7 @@
-﻿using BookStore.Domain.Entities;
+﻿using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -16,49 +15,41 @@ namespace BookStore.WebAPI.Middleware
 
     public class AuthenticationHandler : AuthenticationHandler<AuthenticationOptions>
     {
+        private readonly IAuthenticationUseCase authenticateUseCase;
         public AuthenticationHandler(
             IOptionsMonitor<AuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock)
+            ISystemClock clock,
+            IAuthenticationUseCase authenticateUseCase
+            )
             : base(options, logger, encoder, clock)
         {
-            
+            this.authenticateUseCase = authenticateUseCase;
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!Request.Headers.ContainsKey("Authorization"))
-                return Task.FromResult(AuthenticateResult.Fail("Authorization"));
+                return AuthenticateResult.Fail("Authorization");
 
             string authorizationHeader = Request.Headers["Authorization"];
-            if (string.IsNullOrEmpty(authorizationHeader))
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
-            }
-            if (!authorizationHeader.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
-            {
-                return Task.FromResult(AuthenticateResult.Fail("Authorization"));
-            }
-
-            string token = authorizationHeader.Substring("Bearer".Length).Trim();
-            if (string.IsNullOrEmpty(token))
-            {
-                return Task.FromResult(AuthenticateResult.Fail(""));
-            }
 
             try
             {
-                Request.HttpContext.Items["auth"] = new AuthenticatedUser() { };
-                return Task.FromResult(validateToken(token));
+                var auth = await authenticateUseCase.Auth(authorizationHeader);
+                if (auth == null) return AuthenticateResult.Fail("");
+
+                Request.HttpContext.Items["Auth"] = auth;
+                return AuthenticationTicket();
             }
-            catch (Exception ex)
+            catch
             {
-                return Task.FromResult(AuthenticateResult.Fail(ex.Message));
+                return AuthenticateResult.Fail("");
             }
         }
 
-        private AuthenticateResult validateToken(string token)
+        private AuthenticateResult AuthenticationTicket()
         {           
             var claims = new List<Claim>
                 {
