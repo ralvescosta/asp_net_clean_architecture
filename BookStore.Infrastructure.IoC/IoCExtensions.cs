@@ -13,6 +13,7 @@ namespace BookStore.Infrastructure.IoC
     {
         public static IServiceCollection AddApplications(this IServiceCollection services)
         {
+            services.AddScoped<IAuthenticationUseCase, AuthenticationUseCase>();
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddScoped<ISessionUseCase, SessionUseCase>();
             services.AddScoped<IUserUseCase, UserUseCase>();

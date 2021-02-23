@@ -109,3 +109,9 @@ C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Micr
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.Extensions.Configuration.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\BookStore.Shared.dll
+C:\Users\rafael\Desktop\projects\BookStore\BookStore.Tests\bin\Debug\net5.0\BookStore.Shared.pdb
