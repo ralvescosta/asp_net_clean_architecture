@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
+using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace BookStore.Application.UseCase
             this.tokenManagerService = tokenManagerService;
             this.userRepository = userRepository;
         }
-        public Task<AuthenticatedUser> Auth(string authorizationHeader)
+        public Task<AuthenticatedUser> Auth(string authorizationHeader, Permissions permissionRequired)
         {
             if (string.IsNullOrEmpty(authorizationHeader))
             {
