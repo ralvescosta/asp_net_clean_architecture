@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
+using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace BookStore.Application.UseCase
             this.tokenManagerService = tokenManagerService;
             this.userRepository = userRepository;
         }
-        public Task<AuthenticatedUser> Auth(string authorizationHeader)
+        public async Task<AuthenticatedUser> Auth(string authorizationHeader, Permissions permissionRequired)
         {
             if (string.IsNullOrEmpty(authorizationHeader))
             {
@@ -32,7 +33,34 @@ namespace BookStore.Application.UseCase
                 throw new ApplicationException();
             }
 
-            return Task.FromResult(new AuthenticatedUser());
+            var user = await userRepository.FindById(1);
+            if (user == null) return null;
+
+            switch (permissionRequired)
+            {
+                case Permissions.Admin:
+                    if (user.Permission != Permissions.Admin)
+                    {
+                        return null;
+                    }
+                    break;
+                case Permissions.User:
+                    if (user.Permission != Permissions.Admin || user.Permission != Permissions.User)
+                    {
+                        return null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
+
+            return new AuthenticatedUser() 
+            {
+                Id = user.Id,
+                Guid = user.Guid.ToString(),
+                Email = user.Email
+            };
         }
     }
 }

@@ -1,10 +1,16 @@
-﻿using BookStore.Domain.Interfaces;
+﻿using BookStore.Domain.Enums;
+using BookStore.Domain.Interfaces;
+using BookStore.WebAPI.Attributes;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Middleware
@@ -34,10 +40,12 @@ namespace BookStore.WebAPI.Middleware
                 return AuthenticateResult.Fail("Authorization");
 
             string authorizationHeader = Request.Headers["Authorization"];
-
+            var metaData = Context.GetEndpoint().Metadata.GetMetadata<PermissionAttribute>();
             try
             {
-                var auth = await authenticateUseCase.Auth(authorizationHeader);
+                var permissionRequired = GetPermissionRequiredEnumInstance(metaData);
+
+                var auth = await authenticateUseCase.Auth(authorizationHeader, permissionRequired);
                 if (auth == null) return AuthenticateResult.Fail("");
 
                 Request.HttpContext.Items["Auth"] = auth;
@@ -47,6 +55,16 @@ namespace BookStore.WebAPI.Middleware
             {
                 return AuthenticateResult.Fail("");
             }
+        }
+        #region privateMethods
+        private static Permissions GetPermissionRequiredEnumInstance(PermissionAttribute attribuite) 
+        {
+            if (attribuite == null) return Permissions.Unauthorized;
+
+            var type = attribuite.GetType().Name;
+            var permission = Regex.Split(type, @"(?<!^)(?=[A-Z])")[0];
+            Enum.TryParse<Permissions>(permission, false, out var enumResult);
+            return enumResult;
         }
 
         private AuthenticateResult AuthenticationTicket()
@@ -61,5 +79,6 @@ namespace BookStore.WebAPI.Middleware
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
             return AuthenticateResult.Success(ticket);
         }
+        #endregion
     }
 }

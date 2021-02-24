@@ -10,7 +10,7 @@ namespace BookStore.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private List<UserModel> usersModel;
+        private readonly List<UserModel> usersModel;
         public UserRepository() 
         {
             usersModel = new List<UserModel>();
@@ -57,5 +57,22 @@ namespace BookStore.Infrastructure.Repositories
             return Task.FromResult(user);
         }
 
+        public Task<User> FindById(int id)
+        {
+            var user = usersModel
+                   .Where(u => u.Id == id)
+                   .Select(u => new User()
+                   {
+                       Id = u.Id,
+                       Guid = u.Guid,
+                       Name = u.Name,
+                       LastName = u.Name,
+                       Email = u.Email,
+                       PasswordHash = u.PasswordHash,
+                       Permission = u.Permission,
+                   })
+                   .FirstOrDefault();
+            return Task.FromResult(user);
+        }
     }
 }
