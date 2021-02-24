@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookStore.Application.Exceptions
+namespace BookStore.Infrastructure.Exceptions
 {
     public class JwtVerifyExcpetion : Exception
     {

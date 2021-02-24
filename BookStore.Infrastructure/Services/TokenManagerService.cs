@@ -1,6 +1,6 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
+using BookStore.Infrastructure.Exceptions;
 using BookStore.Shared.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Infrastructure.Services
 {
