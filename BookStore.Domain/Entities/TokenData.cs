@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Domain.Enums;
+using System;
 
 namespace BookStore.Domain.Entities
 {

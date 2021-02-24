@@ -1,4 +1,5 @@
-﻿using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Exceptions;
+using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
@@ -20,21 +21,31 @@ namespace BookStore.Application.UseCase
         {
             if (string.IsNullOrEmpty(authorizationHeader))
             {
-                throw new ApplicationException();
+                throw new UnauthorizedExcpetion();
             }
             if (!authorizationHeader.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
             {
-                throw new ApplicationException();
+                throw new UnauthorizedExcpetion();
             }
 
             string token = authorizationHeader["Bearer".Length..].Trim();
             if (string.IsNullOrEmpty(token))
             {
-                throw new ApplicationException();
+                throw new UnauthorizedExcpetion();
             }
 
-            var user = await userRepository.FindById(1);
-            if (user == null) return null;
+            TokenData tokenData;
+            try
+            {
+                tokenData = tokenManagerService.VerifyToken(token);
+            }
+            catch
+            {
+                throw new UnauthorizedExcpetion();
+            }
+            
+            var user = await userRepository.FindById(tokenData.Id);
+            if (user == null) throw new UnauthorizedExcpetion();
 
             switch (permissionRequired)
             {
@@ -52,8 +63,7 @@ namespace BookStore.Application.UseCase
                     break;
                 default:
                     break;
-            }
-            
+            }            
 
             return new AuthenticatedUser() 
             {

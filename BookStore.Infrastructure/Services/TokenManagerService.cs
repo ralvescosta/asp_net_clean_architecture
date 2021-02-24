@@ -1,11 +1,14 @@
-﻿using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Exceptions;
+using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
 using BookStore.Shared.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Infrastructure.Services
 {
@@ -38,13 +41,38 @@ namespace BookStore.Infrastructure.Services
             return result;
         }
 
-        public TokenData VerifyToken(string Token)
+        public TokenData VerifyToken(string token)
         {
-            return new TokenData 
-            { 
-                Id = 1,
-                Guid = Guid.NewGuid().ToString()
-            };
+            try
+            {
+                var jwtKey = Encoding.ASCII.GetBytes(configs.JwtScrete);
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var validators = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+                var claims = jwtHandler
+                    .ValidateToken(token, validators, out var tokenSecure)
+                    .Claims.ToArray();
+
+                var Id = Convert.ToInt32(claims[0].Value);
+                var Guid = claims[1].Value;
+
+                return new TokenData() 
+                { 
+                    Id = Id,
+                    Guid = Guid
+                };
+            }
+            catch
+            {
+                throw new JwtVerifyExcpetion();
+            }
         }
     }
 }
