@@ -1,13 +1,9 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Domain.DTOs.Inputs;
-using BookStore.Domain.Entities;
+﻿using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.WebAPI.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Controllers

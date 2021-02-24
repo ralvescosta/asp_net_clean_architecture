@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
+using BookStore.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -24,13 +25,13 @@ namespace BookStore.Tests.Application
         [TestMethod]
         public void ShouldThrowAplicationExceptionIfAuthorizationHeaderIsEmpty()
         {
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => authUseCase.Auth(""));
+            Assert.ThrowsExceptionAsync<ApplicationException>(() => authUseCase.Auth("", Permissions.User));
         }
 
         [TestMethod]
         public void ShouldThrowAplicationExceptionIfAuthorizationHeaderIsWrong()
         {
-            Assert.ThrowsExceptionAsync<ApplicationException>(()=> authUseCase.Auth("token"));
+            Assert.ThrowsExceptionAsync<ApplicationException>(()=> authUseCase.Auth("token", Permissions.User));
         }
     }
 }
