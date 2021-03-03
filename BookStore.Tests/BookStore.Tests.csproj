@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestResults\**" />
+    <EmbeddedResource Remove="TestResults\**" />
+    <None Remove="TestResults\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Moq" Version="4.16.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
@@ -18,10 +24,6 @@
     <ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
     <ProjectReference Include="..\BookStore.Domain\BookStore.Domain.csproj" />
     <ProjectReference Include="..\BookStore.Infrastructure\BookStore.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestResults\" />
   </ItemGroup>
 
 </Project>

@@ -41,6 +41,13 @@ namespace BookStore.Tests.Infrastructure.Repositories
             var result = await userRepository.FindByEmail(userMock.Email);
             Assert.AreEqual(result.Email, userMock.Email);
         }
+        [TestMethod]
+        public async Task ShouldFindById()
+        {
+            await userRepository.SaveUser(userMock);
+            var result = await userRepository.FindById(1);
+            Assert.AreEqual(result.Email, userMock.Email);
+        }
 
     }
 }
