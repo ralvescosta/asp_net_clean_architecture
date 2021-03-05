@@ -74,5 +74,10 @@ namespace BookStore.Infrastructure.Repositories
                    .FirstOrDefault();
             return Task.FromResult(user);
         }
+
+        public Task<IEnumerable<User>> FindAll()
+        {
+            return Task.FromResult<IEnumerable<User>>(usersModel.AsEnumerable());
+        }
     }
 }
