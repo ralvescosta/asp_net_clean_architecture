@@ -35,7 +35,7 @@ namespace BookStore.Tests.Application
             {
                 Email = "user@email.com",
                 PasswordHash = "hashed",
-                Guid = Guid.NewGuid(),
+                Guid = Guid.NewGuid().ToString(),
                 Name = "Joao",
                 LastName = "Julios",
                 Permission = Permissions.User
@@ -50,7 +50,7 @@ namespace BookStore.Tests.Application
         [TestMethod]
         public void ShouldTrhowNotFoundExceptionIfEmailNotFound()
         {
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns<User>(null);
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns<User>(null);
 
             Assert.ThrowsExceptionAsync<NotFoundException>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
         }

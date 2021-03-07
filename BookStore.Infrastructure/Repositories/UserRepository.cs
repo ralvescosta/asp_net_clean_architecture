@@ -12,10 +12,10 @@ namespace BookStore.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IDbConnection dbConn;
+        private readonly IDbConnectionFactory dbConnFactory;
         public UserRepository(IDbConnectionFactory dbConnFactory) 
         {
-            dbConn = dbConnFactory.GetConnection();
+            this.dbConnFactory = dbConnFactory;
         }
 
         public async Task<User> SaveUser(User user)
@@ -35,7 +35,7 @@ namespace BookStore.Infrastructure.Repositories
             parameters.Add("@CreatedAt", DateTime.Now, DbType.DateTime);
             parameters.Add("@UpdatedAt", DateTime.Now, DbType.DateTime);
 
-            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -46,7 +46,7 @@ namespace BookStore.Infrastructure.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email, DbType.String);
 
-            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -57,7 +57,7 @@ namespace BookStore.Infrastructure.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@Email", id, DbType.String);
 
-            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -65,7 +65,7 @@ namespace BookStore.Infrastructure.Repositories
         {
             var sql = @"SELECT * FROM users";
 
-            var result = await dbConn.QueryAsync<User>(sql);
+            var result = await dbConnFactory.QueryAsync<User>(sql);
             return result;
         }
     }

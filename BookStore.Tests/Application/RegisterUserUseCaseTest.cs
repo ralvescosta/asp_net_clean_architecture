@@ -27,7 +27,7 @@ namespace BookStore.Tests.Application
             registerUserUseCase = new RegisterUserUseCase(userRepository.Object, hasher.Object);
             mockedUser = new User()
             {
-                Guid = Guid.NewGuid(),
+                Guid = Guid.NewGuid().ToString(),
                 Name = "Fulano",
                 LastName = "DeTal",
                 Email = "fulano@detal.com",
@@ -48,7 +48,7 @@ namespace BookStore.Tests.Application
         public void ShouldThrowEmailAlreadyExistExceptionIfEmailAlreadyExist() 
         {
             //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult(mockedUser));
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult(mockedUser));
 
             //Act and Assert
             Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(() => registerUserUseCase.Register(mockedUserRegistration));
@@ -58,7 +58,7 @@ namespace BookStore.Tests.Application
         public void ShouldThrowApplicationExpectionIfSomeErrorOccurInFindByEmail()
         {
             //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Throws(new Exception());
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Throws(new Exception());
 
             //Act and Assert
             Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(mockedUserRegistration));
@@ -78,7 +78,7 @@ namespace BookStore.Tests.Application
         public async Task ShouldReturnUserIfSuccess()
         {
             //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns(Task.FromResult<User>(null));
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
             userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
 
             //act
