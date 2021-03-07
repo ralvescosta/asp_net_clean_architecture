@@ -7,7 +7,7 @@ namespace BookStore.Application.Interfaces
     public interface IUserRepository
     {
         Task<User> SaveUser(User user);
-        Task<User> FindByEmail(Email email);
+        Task<User> FindByEmail(string email);
         Task<User> FindById(int id);
         Task<IEnumerable<User>> FindAll();
     }

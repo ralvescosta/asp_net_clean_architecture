@@ -1,3 +1,4 @@
+using BookStore.Infrastructure.Database;
 using BookStore.Infrastructure.IoC;
 using BookStore.WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,7 @@ namespace BookStore.WebAPI
             services.AddRepositories();
             services.AddApplications();
             services.AddConfigurations();
+            //services.AddSingleton<IMigrations, Migrations>();
 
             services.AddAuthentication("Authentication")
                    .AddScheme<AuthenticationOptions, AuthenticationHandler>("Authentication", null);
@@ -71,7 +73,7 @@ namespace BookStore.WebAPI
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             if (env.IsDevelopment())
             {
@@ -90,6 +92,8 @@ namespace BookStore.WebAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreBook API");
             });
+
+            //service.GetService<IMigrations>().RunMigrate();
         }
     }
 }
