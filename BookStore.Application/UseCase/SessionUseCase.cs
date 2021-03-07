@@ -44,7 +44,7 @@ namespace BookStore.Application.UseCase
         #region privateMethods
         private async Task<User> FindUserOrTrhow(UserCredentials credentials)
         {
-            var user = await userRepository.FindByEmail(credentials.Email);
+            var user = await userRepository.FindByEmail(credentials.Email.ToString());
             if (user == null)
             {
                 throw new NotFoundException();

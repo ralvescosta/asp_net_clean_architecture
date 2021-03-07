@@ -1,83 +1,72 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
-using BookStore.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
+using BookStore.Infrastructure.Database;
 
 namespace BookStore.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly List<UserModel> usersModel;
-        public UserRepository() 
+        private readonly IDbConnection dbConn;
+        public UserRepository(IDbConnectionFactory dbConnFactory) 
         {
-            usersModel = new List<UserModel>();
+            dbConn = dbConnFactory.GetConnection();
         }
 
-        public Task<User> SaveUser(User user)
+        public async Task<User> SaveUser(User user)
         {
-            var last = usersModel.LastOrDefault();
-            var Id = last == null ? 1 : last.Id + 1;
+            var sql = @"
+                INSERT INTO users 
+                    (Guid, Name, LastName, Email, PasswordHash, Permission, CreatedAt, UpdatedAt) VALUES 
+                    (@Guid, @Name, @LastName, @Email, @PasswordHash, @Permission, @CreatedAt, @UpdatedAt)";
 
-            var userModel = new UserModel()
-            {
-                Id = Id,
-                Guid = user.Guid,
-                Name = user.Name,
-                LastName = user.Name,
-                Email = user.Email,
-                PasswordHash = user.PasswordHash,
-                Permission = user.Permission,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-            };
+            var parameters = new DynamicParameters();
+            parameters.Add("@Guid", user.Guid, DbType.Guid);
+            parameters.Add("@Name", user.Name, DbType.String);
+            parameters.Add("@LastName", user.LastName, DbType.String);
+            parameters.Add("@Email", user.Email, DbType.String);
+            parameters.Add("@PasswordHash", user.PasswordHash, DbType.String);
+            parameters.Add("@Permission", user.Permission, DbType.Int16);
+            parameters.Add("@CreatedAt", DateTime.Now, DbType.DateTime);
+            parameters.Add("@UpdatedAt", DateTime.Now, DbType.DateTime);
 
-            usersModel.Add(userModel);
-
-            return Task.FromResult(user);
+            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            return result.FirstOrDefault();
         }
 
-        public Task<User> FindByEmail(Email email) 
+        public async Task<User> FindByEmail(string email) 
         {
-            var user = usersModel
-                    .Where(u => u.Email.ToString() == email.ToString())
-                    .Select(u => new User() 
-                    {
-                        Id = u.Id,
-                        Guid = u.Guid,
-                        Name = u.Name,
-                        LastName = u.Name,
-                        Email = u.Email,
-                        PasswordHash = u.PasswordHash,
-                        Permission = u.Permission,
-                    })
-                    .FirstOrDefault();
-            return Task.FromResult(user);
+            var sql = @"SELECT * FROM users WHERE email = @Email";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", email, DbType.String);
+
+            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            return result.FirstOrDefault();
         }
 
-        public Task<User> FindById(int id)
+        public async Task<User> FindById(int id)
         {
-            var user = usersModel
-                   .Where(u => u.Id == id)
-                   .Select(u => new User()
-                   {
-                       Id = u.Id,
-                       Guid = u.Guid,
-                       Name = u.Name,
-                       LastName = u.Name,
-                       Email = u.Email,
-                       PasswordHash = u.PasswordHash,
-                       Permission = u.Permission,
-                   })
-                   .FirstOrDefault();
-            return Task.FromResult(user);
+            var sql = @"SELECT * FROM users WHERE Id = @Id";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", id, DbType.String);
+
+            var result = await dbConn.QueryAsync<User>(sql, parameters);
+            return result.FirstOrDefault();
         }
 
-        public Task<IEnumerable<User>> FindAll()
+        public async Task<IEnumerable<User>> FindAll()
         {
-            return Task.FromResult<IEnumerable<User>>(usersModel.AsEnumerable());
+            var sql = @"SELECT * FROM users";
+
+            var result = await dbConn.QueryAsync<User>(sql);
+            return result;
         }
     }
 }

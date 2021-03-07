@@ -24,7 +24,7 @@ namespace BookStore.Application.UseCase
         }
 
         #region privateMethods
-        private async Task CheckIfUserExist(Email email) 
+        private async Task CheckIfUserExist(string email) 
         {
             User user;
             try
@@ -47,7 +47,7 @@ namespace BookStore.Application.UseCase
             {
                 User user = new User()
                 {
-                    Guid = Guid.NewGuid(),
+                    Guid = Guid.NewGuid().ToString(),
                     Name = input.Name,
                     LastName = input.LastName,
                     Email = input.Email,
