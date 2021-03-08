@@ -32,9 +32,9 @@ namespace BookStore.Application.UseCase
             {
                 user = await userRepository.FindByEmail(email);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new ApplicationException();
+                throw new ApplicationException(ex.Message);
             }
             if (user != null)
             {
@@ -53,13 +53,13 @@ namespace BookStore.Application.UseCase
                     LastName = input.LastName,
                     Email = input.Email,
                     Permission = Permissions.Admin,
-                    PasswordHash = hasher.Hashe(input.Password.ToString())
+                    PasswordHash = hasher.Hashe(input.Password)
                 };
                 return userRepository.SaveUser(user);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new ApplicationException();
+                throw new ApplicationException(ex.Message);
             }
         }
         #endregion
