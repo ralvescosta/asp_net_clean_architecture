@@ -3,9 +3,9 @@ using System.Data;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
 
-namespace BookStore.Infrastructure.Database
+namespace BookStore.Infrastructure.Interfaces
 {
-    public interface IDbConnectionFactory
+    public interface IDbContext
     {
         IDbConnection GetConnection();
         Task<IEnumerable<T>> QueryAsync<T>(string query);

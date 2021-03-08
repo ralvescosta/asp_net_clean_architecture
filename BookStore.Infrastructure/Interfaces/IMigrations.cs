@@ -1,4 +1,4 @@
-﻿namespace BookStore.Infrastructure.Database
+﻿namespace BookStore.Infrastructure.Interfaces
 {
     public interface IMigrations
     {

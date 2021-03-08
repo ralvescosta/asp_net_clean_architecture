@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using BookStore.Infrastructure.Interfaces;
+using Dapper;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Data;
@@ -7,12 +8,12 @@ using static Dapper.SqlMapper;
 
 namespace BookStore.Infrastructure.Database
 {
-    public class SQLiteDbConnection : IDbConnectionFactory
+    public class SQLiteDbContext : IDbContext
     {
         private readonly IDbConnection dbConn;
-        public SQLiteDbConnection()
+        public SQLiteDbContext()
         {
-            dbConn = new SqliteConnection("Data Source=SQLiteTutorialsDB.db");
+            dbConn = new SqliteConnection("Data Source=BookStore.db");
             if (dbConn.State == ConnectionState.Closed)
                 dbConn.Open();
         }

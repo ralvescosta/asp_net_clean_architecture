@@ -6,16 +6,16 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using BookStore.Infrastructure.Database;
+using BookStore.Infrastructure.Interfaces;
 
 namespace BookStore.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IDbConnectionFactory dbConnFactory;
-        public UserRepository(IDbConnectionFactory dbConnFactory) 
+        private readonly IDbContext dbContext;
+        public UserRepository(IDbContext dbContext) 
         {
-            this.dbConnFactory = dbConnFactory;
+            this.dbContext = dbContext;
         }
 
         public async Task<User> SaveUser(User user)
@@ -35,7 +35,7 @@ namespace BookStore.Infrastructure.Repositories
             parameters.Add("@CreatedAt", DateTime.Now, DbType.DateTime);
             parameters.Add("@UpdatedAt", DateTime.Now, DbType.DateTime);
 
-            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
+            var result = await dbContext.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -46,7 +46,7 @@ namespace BookStore.Infrastructure.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email, DbType.String);
 
-            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
+            var result = await dbContext.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -57,7 +57,7 @@ namespace BookStore.Infrastructure.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@Email", id, DbType.String);
 
-            var result = await dbConnFactory.QueryAsync<User>(sql, parameters);
+            var result = await dbContext.QueryAsync<User>(sql, parameters);
             return result.FirstOrDefault();
         }
 
@@ -65,7 +65,7 @@ namespace BookStore.Infrastructure.Repositories
         {
             var sql = @"SELECT * FROM users";
 
-            var result = await dbConnFactory.QueryAsync<User>(sql);
+            var result = await dbContext.QueryAsync<User>(sql);
             return result;
         }
     }

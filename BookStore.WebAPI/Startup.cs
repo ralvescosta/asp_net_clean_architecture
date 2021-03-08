@@ -1,4 +1,3 @@
-using BookStore.Infrastructure.Database;
 using BookStore.Infrastructure.IoC;
 using BookStore.WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;

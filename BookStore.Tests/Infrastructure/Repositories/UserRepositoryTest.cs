@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
-using BookStore.Infrastructure.Database;
+using BookStore.Infrastructure.Interfaces;
 using BookStore.Infrastructure.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -15,14 +15,14 @@ namespace BookStore.Tests.Infrastructure.Repositories
     [TestClass]
     public class UserRepositoryTest
     {
-        private Mock<IDbConnectionFactory> dbConnFactory;
+        private Mock<IDbContext> dbConnFactory;
         private UserRepository userRepository;
         private User userMock;
 
         [TestInitialize]
         public void InitializeTest() 
         {
-            dbConnFactory = new Mock<IDbConnectionFactory>();
+            dbConnFactory = new Mock<IDbContext>();
             userRepository = new UserRepository(dbConnFactory.Object);
             userMock = new User()
             {
