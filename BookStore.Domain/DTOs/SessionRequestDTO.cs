@@ -2,8 +2,8 @@
 
 namespace BookStore.Domain.DTOs.Inputs
 {
-    [Display(Name = "InputSessionSchema")]
-    public class InputSessionDTO
+    [Display(Name = "SessionRequestSchema")]
+    public class SessionRequestDTO
     {
         [Required]
         [EmailAddress]
@@ -11,6 +11,7 @@ namespace BookStore.Domain.DTOs.Inputs
 
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

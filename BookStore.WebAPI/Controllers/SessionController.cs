@@ -1,6 +1,5 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Domain.DTOs.Inputs;
-using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -19,38 +18,14 @@ namespace BookStore.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Session([FromBody] InputSessionDTO input)
+        public async Task<IActionResult> Session([FromBody] SessionRequestDTO request)
         {
-            UserCredentials credentials;
             try
             {
-                credentials = new UserCredentials()
-                {
-                    Email = input.Email,
-                    Password = input.Password,
-                };
-            }
-            catch
-            {
-                var response = new Dictionary<string, string>
-                {
-                    { "message", "Wrong Body" }
-                };
-                return BadRequest(response);
-            }
-
-            return await ExecuteSession(credentials);
-        }
-
-        #region privateMethod
-        private async Task<IActionResult> ExecuteSession(UserCredentials credentials) 
-        { 
-            try
-            {
-                var result = await sessionUsecase.CreateUserSession(credentials);
+                var result = await sessionUsecase.CreateUserSession(request);
                 return Ok(result);
             }
-            catch (NotFoundException) 
+            catch (NotFoundException)
             {
                 var response = new Dictionary<string, string>
                 {
@@ -63,6 +38,5 @@ namespace BookStore.WebAPI.Controllers
                 return Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error");
             }
         }
-        #endregion
     }
 }

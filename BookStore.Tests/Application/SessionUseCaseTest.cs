@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
+using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Shared.Interfaces;
@@ -20,7 +21,7 @@ namespace BookStore.Tests.Application
         private Mock<ITokenManagerService> tokenManagerService;
         private Mock<IConfigurations> configurations;
         private User userMock;
-        private UserCredentials userCredentialsMock;
+        private SessionRequestDTO userCredentialsMock;
         
         [TestInitialize]
         public void TestInitialize()
@@ -40,7 +41,7 @@ namespace BookStore.Tests.Application
                 LastName = "Julios",
                 Permission = Permissions.User
             };
-            userCredentialsMock = new UserCredentials() 
+            userCredentialsMock = new SessionRequestDTO() 
             { 
                 Email = userMock.Email,
                 Password = "123456"

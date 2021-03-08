@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,7 +18,7 @@ namespace BookStore.Tests.Application
         private Mock<IUserRepository> userRepository;
         private Mock<IHasherService> hasher;
         private User mockedUser;
-        private UserRegistration mockedUserRegistration;
+        private UserRegistrationRequestDTO mockedUserRegistration;
 
         [TestInitialize]
         public void TestInitialize() 
@@ -35,7 +36,7 @@ namespace BookStore.Tests.Application
                 Permission = Permissions.User,
             };
 
-            mockedUserRegistration = new UserRegistration()
+            mockedUserRegistration = new UserRegistrationRequestDTO()
             {
                 Name = "Fulano",
                 LastName = "DeTal",
