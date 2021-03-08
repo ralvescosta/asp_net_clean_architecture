@@ -2,6 +2,7 @@
 using BookStore.Application.UseCase;
 using BookStore.Domain.Interfaces;
 using BookStore.Infrastructure.Database;
+using BookStore.Infrastructure.Interfaces;
 using BookStore.Infrastructure.Repositories;
 using BookStore.Infrastructure.Services;
 using BookStore.Shared.Configurations;
@@ -25,7 +26,7 @@ namespace BookStore.Infrastructure.IoC
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<IHasherService, HasherService>();
             services.AddScoped<ITokenManagerService, TokenManagerService>();
-            services.AddSingleton<IDbConnectionFactory, SQLiteDbConnection>();
+            services.AddSingleton<IDbContext, SQLiteDbContext>();
             return services;
         }
 

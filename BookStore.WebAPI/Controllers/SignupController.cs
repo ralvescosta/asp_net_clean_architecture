@@ -1,6 +1,5 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Domain.DTOs;
-using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,37 +18,11 @@ namespace BookStore.WebAPI.Controllers
             this.registerUserUseCase = registerUserUseCase;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] InputUserRegistrationDTO input)
-        {
-            UserRegistration user;
-            try
-            {
-                user = new UserRegistration()
-                {
-                    Name = input.Name,
-                    LastName = input.LastName,
-                    Email = input.Email,
-                    Password = input.Password,
-                };
-            }
-            catch (ArgumentException ex)
-            {
-                var response = new Dictionary<string, string>
-                {
-                    { "message", ex.Message }
-                };
-                return BadRequest(response);
-            }
-
-            return await ExecuteRegisterUserUseCase(user);
-        }
-
-        #region privateMethods
-        private async Task<IActionResult> ExecuteRegisterUserUseCase(UserRegistration user)
+        public async Task<IActionResult> CreateUser([FromBody] UserRegistrationRequestDTO request)
         {
             try
             {
-                await registerUserUseCase.Register(user);
+                await registerUserUseCase.Register(request);
                 return Ok();
             }
             catch (EmailAlreadyExistException ex)
@@ -66,6 +39,5 @@ namespace BookStore.WebAPI.Controllers
                 return Problem(ex.Message);
             }
         }
-        #endregion
     }
 }

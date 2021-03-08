@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
+using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Shared.Interfaces;
@@ -20,7 +21,7 @@ namespace BookStore.Tests.Application
         private Mock<ITokenManagerService> tokenManagerService;
         private Mock<IConfigurations> configurations;
         private User userMock;
-        private UserCredentials userCredentialsMock;
+        private SessionRequestDTO userCredentialsMock;
         
         [TestInitialize]
         public void TestInitialize()
@@ -35,12 +36,12 @@ namespace BookStore.Tests.Application
             {
                 Email = "user@email.com",
                 PasswordHash = "hashed",
-                Guid = Guid.NewGuid(),
+                Guid = Guid.NewGuid().ToString(),
                 Name = "Joao",
                 LastName = "Julios",
                 Permission = Permissions.User
             };
-            userCredentialsMock = new UserCredentials() 
+            userCredentialsMock = new SessionRequestDTO() 
             { 
                 Email = userMock.Email,
                 Password = "123456"
@@ -50,7 +51,7 @@ namespace BookStore.Tests.Application
         [TestMethod]
         public void ShouldTrhowNotFoundExceptionIfEmailNotFound()
         {
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<Email>())).Returns<User>(null);
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns<User>(null);
 
             Assert.ThrowsExceptionAsync<NotFoundException>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
         }

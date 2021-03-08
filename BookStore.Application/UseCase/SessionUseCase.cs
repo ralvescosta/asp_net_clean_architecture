@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
+using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
@@ -22,7 +23,7 @@ namespace BookStore.Application.UseCase
             this.tokenManaherService = tokenManaherService;
             this.configs = configs;
         }
-        public async Task<Session> CreateUserSession(UserCredentials credentials)
+        public async Task<Session> CreateUserSession(SessionRequestDTO credentials)
         {
             var user = await FindUserOrTrhow(credentials);
 
@@ -42,7 +43,7 @@ namespace BookStore.Application.UseCase
         }
 
         #region privateMethods
-        private async Task<User> FindUserOrTrhow(UserCredentials credentials)
+        private async Task<User> FindUserOrTrhow(SessionRequestDTO credentials)
         {
             var user = await userRepository.FindByEmail(credentials.Email.ToString());
             if (user == null)
@@ -53,7 +54,7 @@ namespace BookStore.Application.UseCase
             return user;
         }
 
-        private void PasswordAndPermissionValidate(UserCredentials credentials, User user)
+        private void PasswordAndPermissionValidate(SessionRequestDTO credentials, User user)
         {
             var result = hasher.CompareHashe(credentials.Password.ToString(), user.PasswordHash);
             if (!result)

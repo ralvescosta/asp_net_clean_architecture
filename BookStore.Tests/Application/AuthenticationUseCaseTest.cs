@@ -59,7 +59,7 @@ namespace BookStore.Tests.Application
         public async Task ShouldReturnAuthenticaredUserIfEverthingIsFine()
         {
             tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new TokenData { Id = 1 });
-            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult(new User { Id = 1, Permission = Permissions.User, Email = "email@email.com", Guid = Guid.NewGuid() }));
+            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult(new User { Id = 1, Permission = Permissions.User, Email = "email@email.com", Guid = Guid.NewGuid().ToString() }));
 
             var result = await authUseCase.Auth("Bearer some_token", Permissions.User);
 

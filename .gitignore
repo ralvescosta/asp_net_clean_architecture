@@ -22,5 +22,6 @@ BookStore.Tests/obj
 
 BookStore.WebAPI/bin
 BookStore.WebAPI/obj
+BookStore.WebAPI/BookStore.db
 
 
