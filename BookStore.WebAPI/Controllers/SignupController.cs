@@ -27,7 +27,7 @@ namespace BookStore.WebAPI.Controllers
             return result.GetLeft().GetType() switch
             {
                 Type t when t == typeof(EmailAlreadyExistNotification) => Conflict(result.GetLeft()),
-                _ => Problem(),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
             };
         }
     }

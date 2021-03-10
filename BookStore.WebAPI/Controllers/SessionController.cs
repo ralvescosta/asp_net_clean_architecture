@@ -1,8 +1,8 @@
-﻿using BookStore.Application.Exceptions;
+﻿using BookStore.Application.Notifications;
 using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Controllers
@@ -20,23 +20,17 @@ namespace BookStore.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Session([FromBody] SessionRequestDTO request)
         {
-            try
+            var result = await sessionUsecase.CreateUserSession(request);
+            if(result.IsRight())
+                return Ok(result.GetRight());
+
+            return result.GetLeft().GetType() switch
             {
-                var result = await sessionUsecase.CreateUserSession(request);
-                return Ok(result);
-            }
-            catch (NotFoundException)
-            {
-                var response = new Dictionary<string, string>
-                {
-                    { "message", "Email Not Found" }
-                };
-                return NotFound(response);
-            }
-            catch
-            {
-                return Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error");
-            }
+                Type t when t == typeof(NotFoundNotification) => NotFound(result.GetLeft()),
+                Type t when t == typeof(UnauthorizedNotification) => Unauthorized(result.GetLeft()),
+                Type t when t == typeof(WrongPasswordNotification) => Unauthorized(result.GetLeft()),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
     }
 }
