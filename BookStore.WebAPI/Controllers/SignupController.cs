@@ -1,10 +1,9 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Domain.DTOs;
+﻿using BookStore.Domain.DTOs;
 using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookStore.Application.Notifications;
+using System;
 
 namespace BookStore.WebAPI.Controllers
 {
@@ -20,24 +19,16 @@ namespace BookStore.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserRegistrationRequestDTO request)
         {
-            try
-            {
-                await registerUserUseCase.Register(request);
-                return Ok();
-            }
-            catch (EmailAlreadyExistException ex)
-            {
-                var response = new Dictionary<string, string>
-                {
-                    { "message", ex.Message }
-                };
+            var result = await registerUserUseCase.Register(request);
 
-                return Conflict(response);
-            }
-            catch (Exception ex)
+            if(result.IsRight())
+                return Ok();
+
+            return result.GetLeft().GetType() switch
             {
-                return Problem(ex.Message);
-            }
+                Type t when t == typeof(EmailAlreadyExistNotification) => Conflict(result.GetLeft()),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -18,50 +20,31 @@ namespace BookStore.Application.UseCase
             this.userRepository = userRepository;
             this.hasher = hasher;
         }
-        public async Task<User> Register(UserRegistrationRequestDTO user)
+        public async Task<Either<NotificationBase, User>> Register(UserRegistrationRequestDTO user)
         {
-            await CheckIfUserExist(user.Email);
-            return await PersistUser(user);
-        }
+            var savedUser = await userRepository.FindByEmail(user.Email);
+            if (savedUser.IsLeft())
+                return new Left<NotificationBase, User>(savedUser.GetLeft());
 
-        #region privateMethods
-        private async Task CheckIfUserExist(string email) 
-        {
-            User user;
-            try
+            if(savedUser.GetRight() != null)
             {
-                user = await userRepository.FindByEmail(email);
+                return new Left<NotificationBase, User>(new EmailAlreadyExistNotification("Email already exist"));
             }
-            catch(Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
-            if (user != null)
-            {
-                throw new EmailAlreadyExistException("Email Already Exist");
-            }
-        }
 
-        private Task<User> PersistUser(UserRegistrationRequestDTO input)
-        {
-            try
+            var newUser = new User
             {
-                var user = new User
-                {
-                    Guid = Guid.NewGuid().ToString(),
-                    Name = input.Name,
-                    LastName = input.LastName,
-                    Email = input.Email,
-                    Permission = Permissions.Admin,
-                    PasswordHash = hasher.Hashe(input.Password)
-                };
-                return userRepository.SaveUser(user);
-            }
-            catch(Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+                Guid = Guid.NewGuid().ToString(),
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Permission = Permissions.Admin,
+                PasswordHash = hasher.Hashe(user.Password)
+            };
+            var result = await userRepository.SaveUser(newUser);
+            if(result.IsLeft())
+                return new Left<NotificationBase, User>(result.GetLeft());
+
+            return new Right<NotificationBase, User>(result.GetRight());
         }
-        #endregion
     }
 }

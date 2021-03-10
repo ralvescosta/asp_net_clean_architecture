@@ -32,9 +32,9 @@ namespace BookStore.Application.UseCase
             }
             
             var user = await userRepository.FindById(tokenData.Id);
-            if (user == null) throw new UnauthorizedExcpetion();
+            if (user.GetRight() == null) throw new UnauthorizedExcpetion();
 
-            return VerifyPermission(user, permissionRequired);
+            return VerifyPermission(user.GetRight(), permissionRequired);
         }
 
         #region privateMethods

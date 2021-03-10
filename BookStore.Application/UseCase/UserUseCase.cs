@@ -16,7 +16,7 @@ namespace BookStore.Application.UseCase
         public async Task<IEnumerable<User>> GetAllUsers(AuthenticatedUser auth)
         {
             var users = await userRepository.FindAll();
-            return users;
+            return users.GetRight();
         }
     }
 }

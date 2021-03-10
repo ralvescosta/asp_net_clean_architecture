@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using BookStore.Infrastructure.Interfaces;
+using BookStore.Shared.Utils;
+using BookStore.Shared.Notifications;
 
 namespace BookStore.Infrastructure.Repositories
 {
@@ -18,7 +20,7 @@ namespace BookStore.Infrastructure.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<User> SaveUser(User user)
+        public async Task<Either<NotificationBase, User>> SaveUser(User user)
         {
             var sql = @"
                 INSERT INTO users 
@@ -35,38 +37,66 @@ namespace BookStore.Infrastructure.Repositories
             parameters.Add("@CreatedAt", DateTime.Now, DbType.DateTime);
             parameters.Add("@UpdatedAt", DateTime.Now, DbType.DateTime);
 
-            var result = await dbContext.QueryAsync<User>(sql, parameters);
-            return result.FirstOrDefault();
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql, parameters);
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
+            }
         }
 
-        public async Task<User> FindByEmail(string email) 
+        public async Task<Either<NotificationBase, User>> FindByEmail(string email) 
         {
             var sql = @"SELECT * FROM users WHERE email = @Email";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email, DbType.String);
 
-            var result = await dbContext.QueryAsync<User>(sql, parameters);
-            return result.FirstOrDefault();
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql, parameters);
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
+            }
+            catch(Exception ex)
+            {
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
+            }
         }
 
-        public async Task<User> FindById(int id)
+        public async Task<Either<NotificationBase, User>> FindById(int id)
         {
             var sql = @"SELECT * FROM users WHERE Id = @Id";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Email", id, DbType.String);
 
-            var result = await dbContext.QueryAsync<User>(sql, parameters);
-            return result.FirstOrDefault();
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql, parameters);
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
+            }
+            catch(Exception ex)
+            {
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
+            }
+            
         }
 
-        public async Task<IEnumerable<User>> FindAll()
+        public async Task<Either<NotificationBase, IEnumerable<User>>> FindAll()
         {
             var sql = @"SELECT * FROM users";
 
-            var result = await dbContext.QueryAsync<User>(sql);
-            return result;
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql);
+                return new Right<NotificationBase, IEnumerable<User>>(result);
+            }catch(Exception ex)
+            {
+                return new Left<NotificationBase, IEnumerable<User>>(new NotificationBase(ex.Message));
+            }
         }
     }
 }
