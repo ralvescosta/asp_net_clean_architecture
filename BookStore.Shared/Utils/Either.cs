@@ -1,80 +1,36 @@
 ﻿namespace BookStore.Shared.Utils
 {
-    public class Either
+    public abstract class Either<TLeft, TRight>
     {
-        private readonly object L;
-        private readonly object R;
-
-        public Either(object L, object R) 
-        {
-            this.L = L;
-            this.R = R;
-        }
-
-        public bool IsRight() 
-        {
-            return L == null;
-        }
-
-        public bool IsLeft()
-        {
-            return R == null;
-        }
-
-        public T Value<T>()
-        {
-           return (T)R ?? (T)L;
-        }
-
-        public static Either Right(object r) 
-        {
-            return new Either(null, r);
-        }
-
-        public static Either Left(object l)
-        {
-            return new Either(l, null);
-        }
+        public abstract bool IsRight();
+        public abstract bool IsLeft();
+        public abstract TRight GetRight();
+        public abstract TLeft GetLeft();
     }
-    public class Either<T, S> where T : class where S : class
+
+    public class Left<TLeft, TRight> : Either<TLeft, TRight> where TLeft : class where TRight : class
     {
-        private readonly T L;
-        private readonly S R;
-
-        private Either(T L, S R)
+        TLeft Value { get; }
+        public Left(TLeft value)
         {
-            this.L = L;
-            this.R = R;
+            this.Value = value;
         }
+        public override bool IsRight() => false;
+        public override bool IsLeft() => true;
+        public override TLeft GetLeft() => this.Value;
+        public override TRight GetRight() => null;
+    }
 
-        public S GetRight()
+    public class Right<TLeft, TRight> : Either<TLeft, TRight> where TLeft : class where TRight : class
+    {
+        TRight Value { get; }
+        public Right(TRight value)
         {
-            return R;
+            this.Value = value;
         }
-
-        public T GetLeft()
-        {
-            return L;
-        }
-
-        public bool IsRight()
-        {
-            return L == null;
-        }
-
-        public bool IsLeft()
-        {
-            return R == null;
-        }
-
-        public static Either<T, S> Right(S r)
-        {
-            return new Either<T, S>(null, r);
-        }
-
-        public static Either<T, S> Left(T l)
-        {
-            return new Either<T, S>(l, null);
-        }
+        public override bool IsRight() => true;
+        public override bool IsLeft() => false;
+        public override TLeft GetLeft() => null;
+        public override TRight GetRight() => this.Value;
     }
 }

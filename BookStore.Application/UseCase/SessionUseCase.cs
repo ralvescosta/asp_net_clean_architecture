@@ -46,12 +46,12 @@ namespace BookStore.Application.UseCase
         private async Task<User> FindUserOrTrhow(SessionRequestDTO credentials)
         {
             var user = await userRepository.FindByEmail(credentials.Email.ToString());
-            if (user == null)
+            if (user.GetRight() == null)
             {
                 throw new NotFoundException();
             }
 
-            return user;
+            return user.GetRight();
         }
 
         private void PasswordAndPermissionValidate(SessionRequestDTO credentials, User user)

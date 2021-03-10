@@ -1,5 +1,4 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
 using BookStore.Application.Notifications;
 using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
@@ -25,11 +24,11 @@ namespace BookStore.Application.UseCase
         {
             var savedUser = await userRepository.FindByEmail(user.Email);
             if (savedUser.IsLeft())
-                return Either<NotificationBase, User>.Left(savedUser.GetLeft());
+                return new Left<NotificationBase, User>(savedUser.GetLeft());
 
-            if(savedUser != null)
+            if(savedUser.GetRight() != null)
             {
-                return Either<NotificationBase, User>.Left(new EmailAlreadyExistNotification("Email already exist"));
+                return new Left<NotificationBase, User>(new EmailAlreadyExistNotification("Email already exist"));
             }
 
             var newUser = new User
@@ -43,9 +42,9 @@ namespace BookStore.Application.UseCase
             };
             var result = await userRepository.SaveUser(newUser);
             if(result.IsLeft())
-                return Either<NotificationBase, User>.Left(result.GetLeft());
+                return new Left<NotificationBase, User>(result.GetLeft());
 
-            return Either<NotificationBase, User>.Right(result.GetRight());
+            return new Right<NotificationBase, User>(result.GetRight());
         }
     }
 }

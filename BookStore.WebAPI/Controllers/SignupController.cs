@@ -3,6 +3,7 @@ using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using BookStore.Application.Notifications;
+using System;
 
 namespace BookStore.WebAPI.Controllers
 {
@@ -19,12 +20,15 @@ namespace BookStore.WebAPI.Controllers
         public async Task<IActionResult> CreateUser([FromBody] UserRegistrationRequestDTO request)
         {
             var result = await registerUserUseCase.Register(request);
+
             if(result.IsRight())
                 return Ok();
-            else if(result.GetLeft() is EmailAlreadyExistNotification)
-                return Conflict(result.GetLeft().Message);
 
-            return Problem();
+            return result.GetLeft().GetType() switch
+            {
+                Type t when t == typeof(EmailAlreadyExistNotification) => Conflict(result.GetLeft()),
+                _ => Problem(),
+            };
         }
     }
 }

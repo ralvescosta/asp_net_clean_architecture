@@ -40,11 +40,11 @@ namespace BookStore.Infrastructure.Repositories
             try
             {
                 var result = await dbContext.QueryAsync<User>(sql, parameters);
-                return Either<NotificationBase, User>.Right(result.FirstOrDefault());
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
             }
             catch (Exception ex)
             {
-                return Either<NotificationBase, User>.Left(new NotificationBase(ex.Message));
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
             }
         }
 
@@ -58,11 +58,11 @@ namespace BookStore.Infrastructure.Repositories
             try
             {
                 var result = await dbContext.QueryAsync<User>(sql, parameters);
-                return Either<NotificationBase, User>.Right(result.FirstOrDefault());
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
             }
             catch(Exception ex)
             {
-                return Either<NotificationBase, User>.Left(new NotificationBase(ex.Message));
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
             }
         }
 
@@ -76,11 +76,11 @@ namespace BookStore.Infrastructure.Repositories
             try
             {
                 var result = await dbContext.QueryAsync<User>(sql, parameters);
-                return Either<NotificationBase, User>.Right(result.FirstOrDefault());
+                return new Right<NotificationBase, User>(result.FirstOrDefault());
             }
             catch(Exception ex)
             {
-                return Either<NotificationBase, User>.Left(new NotificationBase(ex.Message));
+                return new Left<NotificationBase, User>(new NotificationBase(ex.Message));
             }
             
         }
@@ -92,10 +92,10 @@ namespace BookStore.Infrastructure.Repositories
             try
             {
                 var result = await dbContext.QueryAsync<User>(sql);
-                return Either<NotificationBase, IEnumerable<User>>.Right(result);
+                return new Right<NotificationBase, IEnumerable<User>>(result);
             }catch(Exception ex)
             {
-                return Either<NotificationBase, IEnumerable<User>>.Left(new NotificationBase(ex.Message));
+                return new Left<NotificationBase, IEnumerable<User>>(new NotificationBase(ex.Message));
             }
         }
     }
