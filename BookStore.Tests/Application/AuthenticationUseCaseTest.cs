@@ -1,8 +1,11 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Application.UseCase;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -26,45 +29,56 @@ namespace BookStore.Tests.Application
         }
 
         [TestMethod]
-        public void ShouldThrowAplicationExceptionIfAuthorizationHeaderIsEmpty()
+        public async Task ShouldReturnUnauthorizedNotificationIfAuthorizationHeaderIsEmpty()
         {
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => authUseCase.Auth("", Permissions.User));
+            var result = await authUseCase.Auth("", Permissions.User);
+
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(UnauthorizedNotification));
         }
 
         [TestMethod]
-        public void ShouldThrowAplicationExceptionIfAuthorizationHeaderIsWrong()
+        public async Task ShouldReturnUnauthorizedNotificationIfAuthorizationHeaderIsWrong()
         {
-            Assert.ThrowsExceptionAsync<ApplicationException>(()=> authUseCase.Auth("token", Permissions.User));
+            var result = await authUseCase.Auth("token", Permissions.User);
+
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(UnauthorizedNotification));
         }
 
         [TestMethod]
-        public void ShouldThrowUnauthorizedExcpetionIfTokenWasInvalid()
+        public async Task ShouldReturnUnauthorizedNotificationIfTokenWasInvalid()
         {
-            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Throws(new Exception());
-            Assert.ThrowsExceptionAsync<UnauthorizedExcpetion>(() => authUseCase.Auth("Bearer invalid_token", Permissions.User));
+            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new Left<NotificationBase, TokenData>(new NotificationBase("")));
+
+            var result = await authUseCase.Auth("Bearer invalid_token", Permissions.User);
+
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(UnauthorizedNotification));
         }
 
         [TestMethod]
-        public async Task ShouldReturnNullIfTheUserRoleDoNotSatisfied()
+        public async Task ShouldReturnUnauthorizedNotificationfTheUserRoleDoNotSatisfied()
         {
-            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new TokenData() { Id = 1 });
-            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult(new User()));
+            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new Right<NotificationBase, TokenData>(new TokenData { Id = 1 }));
+            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(new User { Id = 1 })));
 
             var result = await authUseCase.Auth("Bearer some_token", Permissions.Admin);
 
-            Assert.IsNull(result);
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(UnauthorizedNotification));
         }
 
         [TestMethod]
         public async Task ShouldReturnAuthenticaredUserIfEverthingIsFine()
         {
-            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new TokenData { Id = 1 });
-            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult(new User { Id = 1, Permission = Permissions.User, Email = "email@email.com", Guid = Guid.NewGuid().ToString() }));
+            tokenManagerService.Setup(m => m.VerifyToken(It.IsAny<string>())).Returns(new Right<NotificationBase, TokenData>(new TokenData { Id = 1 }));
+            userRepository.Setup(m => m.FindById(It.IsAny<int>())).Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(new User { Id = 1, Permission = Permissions.User, Email = "email@email.com", Guid = Guid.NewGuid().ToString() })));
 
             var result = await authUseCase.Auth("Bearer some_token", Permissions.User);
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(AuthenticatedUser));
+            Assert.IsTrue(result.IsRight());
+            Assert.IsInstanceOfType(result.GetRight(), typeof(AuthenticatedUser));
         }
     }
 }

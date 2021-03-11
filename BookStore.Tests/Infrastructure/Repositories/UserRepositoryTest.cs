@@ -40,21 +40,23 @@ namespace BookStore.Tests.Infrastructure.Repositories
         {
             dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>(), It.IsAny<IDynamicParameters>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
             var result = await userRepository.SaveUser(userMock);
-            Assert.AreEqual(result, userMock);
+            Assert.AreEqual(result.GetRight(), userMock);
         }
+
         [TestMethod]
         public async Task ShouldReturnUserIfFindByEmailSuccesfuly()
         {
             dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>(), It.IsAny<IDynamicParameters>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
             var result = await userRepository.FindByEmail(userMock.Email);
-            Assert.AreEqual(result.Email, userMock.Email);
+            Assert.AreEqual(result.GetRight().Email, userMock.Email);
         }
+
         [TestMethod]
         public async Task ShouldReturnUserIfFindByIdSuccesfuly()
         {
             dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>(), It.IsAny<IDynamicParameters>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
             var result = await userRepository.FindById(1);
-            Assert.AreEqual(result.Email, userMock.Email);
+            Assert.AreEqual(result.GetRight().Email, userMock.Email);
         }
 
         [TestMethod]
@@ -62,7 +64,7 @@ namespace BookStore.Tests.Infrastructure.Repositories
         {
             dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
             var result = await userRepository.FindAll();
-            Assert.AreEqual(result.First(), userMock);
+            Assert.AreEqual(result.GetRight().First(), userMock);
         }
 
     }

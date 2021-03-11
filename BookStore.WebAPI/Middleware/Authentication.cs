@@ -45,9 +45,10 @@ namespace BookStore.WebAPI.Middleware
                 var permissionRequired = GetPermissionRequiredEnumInstance(metaData);
 
                 var auth = await authenticateUseCase.Auth(authorizationHeader, permissionRequired);
-                if (auth == null) return AuthenticateResult.Fail("");
+                if (auth.IsLeft()) 
+                    return AuthenticateResult.Fail("");
 
-                Request.HttpContext.Items["Auth"] = auth;
+                Request.HttpContext.Items["Auth"] = auth.GetRight();
                 return AuthenticationTicket();
             }
             catch
