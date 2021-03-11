@@ -1,8 +1,11 @@
 ﻿using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -17,43 +20,39 @@ namespace BookStore.Application.UseCase
             this.tokenManagerService = tokenManagerService;
             this.userRepository = userRepository;
         }
-        public async Task<AuthenticatedUser> Auth(string authorizationHeader, Permissions permissionRequired)
+        public async Task<Either<NotificationBase, AuthenticatedUser>> Auth(string authorizationHeader, Permissions permissionRequired)
         {
-            string token = GetTokenFromAuthorizationHeader(authorizationHeader);
+            var token = GetTokenFromAuthorizationHeader(authorizationHeader);
+            if (token == null)
+                return new Left<NotificationBase, AuthenticatedUser>(new UnauthorizedNotification());
 
-            TokenData tokenData;
-            try
-            {
-                tokenData = tokenManagerService.VerifyToken(token);
-            }
-            catch
-            {
-                throw new UnauthorizedExcpetion();
-            }
-            
-            var user = await userRepository.FindById(tokenData.Id);
+
+            var tokenData = tokenManagerService.VerifyToken(token);
+            if(tokenData.IsLeft())
+                return new Left<NotificationBase, AuthenticatedUser>(new UnauthorizedNotification());
+
+            var user = await userRepository.FindById(tokenData.GetRight().Id);
             if (user.GetRight() == null) throw new UnauthorizedExcpetion();
 
-            return VerifyPermission(user.GetRight(), permissionRequired);
+            var autheticatedUser = VerifyPermission(user.GetRight(), permissionRequired);
+            if(autheticatedUser == null)
+                return new Left<NotificationBase, AuthenticatedUser>(new UnauthorizedNotification());
+
+            return new Right<NotificationBase, AuthenticatedUser>(autheticatedUser);
         }
 
         #region privateMethods
         private static string GetTokenFromAuthorizationHeader(string authorizationHeader)
         {
             if (string.IsNullOrEmpty(authorizationHeader))
-            {
-                throw new UnauthorizedExcpetion();
-            }
-            if (!authorizationHeader.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
-            {
-                throw new UnauthorizedExcpetion();
-            }
+                return null;
 
-            string token = authorizationHeader["Bearer".Length..].Trim();
+            if (!authorizationHeader.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            var token = authorizationHeader["Bearer".Length..].Trim();
             if (string.IsNullOrEmpty(token))
-            {
-                throw new UnauthorizedExcpetion();
-            }
+                return null;
 
             return token;
         }

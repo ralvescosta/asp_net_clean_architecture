@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using BookStore.Application.Notifications;
 using System;
+using Microsoft.AspNetCore.Http;
+using BookStore.Shared.Notifications;
 
 namespace BookStore.WebAPI.Controllers
 {
@@ -17,11 +19,16 @@ namespace BookStore.WebAPI.Controllers
             this.registerUserUseCase = registerUserUseCase;
         }
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateUser([FromBody] UserRegistrationRequestDTO request)
         {
             var result = await registerUserUseCase.Register(request);
 
-            if(result.IsRight())
+            if (result.IsRight())
                 return Ok();
 
             return result.GetLeft().GetType() switch

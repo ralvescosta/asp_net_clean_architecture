@@ -1,6 +1,9 @@
 ﻿using BookStore.Application.Notifications;
 using BookStore.Domain.DTOs.Inputs;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
+using BookStore.Shared.Notifications;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -18,6 +21,11 @@ namespace BookStore.WebAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(Session), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Session([FromBody] SessionRequestDTO request)
         {
             var result = await sessionUsecase.CreateUserSession(request);

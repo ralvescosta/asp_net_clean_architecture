@@ -1,7 +1,8 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Domain.Entities;
-using BookStore.Infrastructure.Exceptions;
 using BookStore.Shared.Interfaces;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -40,7 +41,7 @@ namespace BookStore.Infrastructure.Services
             return result;
         }
 
-        public TokenData VerifyToken(string token)
+        public Either<NotificationBase, TokenData> VerifyToken(string token)
         {
             try
             {
@@ -62,15 +63,16 @@ namespace BookStore.Infrastructure.Services
                 var Id = Convert.ToInt32(claims[0].Value);
                 var Guid = claims[1].Value;
 
-                return new TokenData() 
+                var tokenData =  new TokenData() 
                 { 
                     Id = Id,
                     Guid = Guid
                 };
+                return new Right<NotificationBase, TokenData>(tokenData);
             }
             catch
             {
-                throw new JwtVerifyExcpetion();
+                return new Left<NotificationBase, TokenData> (new NotificationBase(""));
             }
         }
     }
