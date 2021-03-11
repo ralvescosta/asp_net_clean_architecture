@@ -1,5 +1,4 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
 using BookStore.Application.Notifications;
 using BookStore.Application.UseCase;
 using BookStore.Domain.Entities;
