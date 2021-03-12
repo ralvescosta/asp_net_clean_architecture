@@ -52,6 +52,10 @@
             "FluentMigrator.Runner.SQLite": {
               "target": "Package",
               "version": "[3.2.15, )"
+            },
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.4, )"
             }
           },
           "imports": [

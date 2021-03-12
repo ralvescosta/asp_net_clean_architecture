@@ -18,18 +18,12 @@ namespace BookStore.Infrastructure.Migration
         private static IServiceProvider CreateServices()
         {
             return new ServiceCollection()
-                // Add common FluentMigrator services
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
-                    // Add SQLite support to FluentMigrator
                     .AddSQLite()
-                    // Set the connection string
-                    .WithGlobalConnectionString("Data Source=BookStore.db"))
-                    // Define the assembly containing the migrations
-                    //.ScanIn(typeof(AddLogTable).Assembly).For.Migrations())
-                // Enable logging to console in the FluentMigrator way
+                    .WithGlobalConnectionString("Data Source=C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.db")
+                    .ScanIn(typeof(AddUserTable).Assembly).For.Migrations())
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
-                // Build the service provider
                 .BuildServiceProvider(false);
         }
 
