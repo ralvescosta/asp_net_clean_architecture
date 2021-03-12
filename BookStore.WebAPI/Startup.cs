@@ -24,8 +24,6 @@ namespace BookStore.WebAPI
             services.AddConfigurations();
             services.AddSwagger();
             services.AddCustomInvalidModelStateResponse();
-            //services.AddSingleton<IMigrations, Migrations>();
-
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
@@ -48,8 +46,6 @@ namespace BookStore.WebAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreBook API");
             });
-
-            //service.GetService<IMigrations>().RunMigrate();
         }
     }
 }
