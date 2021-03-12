@@ -1,9 +1,11 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Application.UseCase;
 using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -45,49 +47,69 @@ namespace BookStore.Tests.Application
             };
         }
 
-        //[TestMethod]
-        //public void ShouldThrowEmailAlreadyExistExceptionIfEmailAlreadyExist() 
-        //{
-        //    //Arranje
-        //    userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult(mockedUser));
-
-        //    //Act and Assert
-        //    Assert.ThrowsExceptionAsync<EmailAlreadyExistException>(() => registerUserUseCase.Register(mockedUserRegistration));
-        //}
-
         [TestMethod]
-        public void ShouldThrowApplicationExpectionIfSomeErrorOccurInFindByEmail()
+        public async Task ShouldReturnsEmailAlreadyNotificationIfEmailAlreadyExist()
         {
-            //Arranje
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Throws(new Exception());
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(mockedUser)));
 
-            //Act and Assert
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(mockedUserRegistration));
+            // Act
+            var result = await registerUserUseCase.Register(mockedUserRegistration);
+
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(EmailAlreadyExistNotification));
         }
 
         [TestMethod]
-        public void ShouldThrowApplicationExpectionIfSomeErrorOccurInSaveUser() 
+        public async Task ShouldReturnNotificationBaseIfSomeErrorOccurInFindByEmail()
         {
-            //Arranje
-            userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Throws(new Exception());
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Left<NotificationBase, User>(new NotificationBase(""))));
 
-            //Act and Assert
-            Assert.ThrowsExceptionAsync<ApplicationException>(() => registerUserUseCase.Register(mockedUserRegistration));
+            // Act
+            var result = await registerUserUseCase.Register(mockedUserRegistration);
+
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(NotificationBase));
         }
 
-        //[TestMethod]
-        //public async Task ShouldReturnUserIfSuccess()
-        //{
-        //    //Arranje
-        //    userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
-        //    userRepository.Setup(m => m.SaveUser(It.IsAny<User>())).Returns(Task.FromResult(mockedUser));
+        [TestMethod]
+        public async Task ShouldReturnNotificationBaseIfSomeErrorOccurInSaveUser() 
+        {
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(null)));
+            userRepository.Setup(m => m.SaveUser(It.IsAny<User>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Left<NotificationBase, User>(new NotificationBase(""))));
 
-        //    //act
-        //    var result = await registerUserUseCase.Register(mockedUserRegistration);
+            // Act
+            var result = await registerUserUseCase.Register(mockedUserRegistration);
 
-        //    //Act and Assert
-        //    Assert.IsNotNull(result);
-        //}
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(NotificationBase));
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnUserIfSuccess()
+        {
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(null)));
+            userRepository.Setup(m => m.SaveUser(It.IsAny<User>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(mockedUser)));
+
+            // Act
+            var result = await registerUserUseCase.Register(mockedUserRegistration);
+
+            // Assert
+            Assert.IsTrue(result.IsRight());
+            Assert.AreEqual(result.GetRight().Email, mockedUser.Email);
+        }
 
     }
 }
