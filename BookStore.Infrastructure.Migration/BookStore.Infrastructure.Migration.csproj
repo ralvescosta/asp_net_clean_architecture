@@ -9,6 +9,7 @@
     <PackageReference Include="FluentMigrator" Version="3.2.15" />
     <PackageReference Include="FluentMigrator.Runner" Version="3.2.15" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="3.2.15" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.4" />
   </ItemGroup>
 
 </Project>
