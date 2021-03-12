@@ -1,10 +1,12 @@
-﻿using BookStore.Application.Exceptions;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Application.UseCase;
 using BookStore.Domain.DTOs.Inputs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Shared.Interfaces;
+using BookStore.Shared.Notifications;
+using BookStore.Shared.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -49,42 +51,67 @@ namespace BookStore.Tests.Application
         }
 
         [TestMethod]
-        public void ShouldTrhowNotFoundExceptionIfEmailNotFound()
+        public async Task ShouldReturnNotFoundNotificationIfEmailNotFound()
         {
-            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>())).Returns<User>(null);
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(It.IsAny<string>()))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(null)));
 
-            Assert.ThrowsExceptionAsync<NotFoundException>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
+            // Act
+            var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
+
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(NotFoundNotification));
         }
 
-        //[TestMethod]
-        //public void ShouldTrhowWrongPasswordExceptionIfPasswordNotMatch()
-        //{
-        //    userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
-        //    hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+        [TestMethod]
+        public async Task ShouldReturnWrongPasswordNotificationIfPasswordNotMatch()
+        {
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(userMock.Email))
+               .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(userMock)));
+            hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
-        //    Assert.ThrowsExceptionAsync<WrongPasswordException>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
-        //}
+            // Act
+            var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
 
-        //[TestMethod]
-        //public void ShouldTrhowUnauthorizedExcpetionIfUserPermissionIsUnauthorized() 
-        //{
-        //    userMock.Permission = Permissions.Unauthorized;
-        //    userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
-        //    hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(WrongPasswordNotification));
+        }
 
-        //    Assert.ThrowsExceptionAsync<UnauthorizedExcpetion>(() => sessionUseCase.CreateUserSession(userCredentialsMock));
-        //}
+        [TestMethod]
+        public async Task ShouldReturnUnauthorizedNotificationIfUserPermissionIsUnauthorized()
+        {
+            // Arrange
+            userMock.Permission = Permissions.Unauthorized;
+            userRepository.Setup(m => m.FindByEmail(userMock.Email))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(userMock)));
+            hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-        //[TestMethod]
-        //public async Task ShouldRetornSessionIfSuccessfuly() 
-        //{
-        //    userRepository.Setup(m => m.FindByEmail(userMock.Email)).ReturnsAsync(userMock);
-        //    hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            // Act
+            var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
 
-        //    var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(UnauthorizedNotification));
+        }
 
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(Session));
-        //}
+        [TestMethod]
+        public async Task ShouldRetornSessionIfSuccessfuly()
+        {
+            // Arrange
+            userRepository.Setup(m => m.FindByEmail(userMock.Email))
+                .Returns(Task.FromResult<Either<NotificationBase, User>>(new Right<NotificationBase, User>(userMock)));
+            hasher.Setup(m => m.CompareHashe(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            // Act
+            var result = await sessionUseCase.CreateUserSession(userCredentialsMock);
+
+            // Assert
+            Assert.IsTrue(result.IsRight());
+            Assert.IsInstanceOfType(result.GetRight(), typeof(Session));
+        }
     }
 }
