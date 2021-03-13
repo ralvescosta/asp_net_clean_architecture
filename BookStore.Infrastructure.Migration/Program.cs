@@ -22,7 +22,10 @@ namespace BookStore.Infrastructure.Migration
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
                     .WithGlobalConnectionString("Data Source=C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.db")
-                    .ScanIn(typeof(AddUserTable).Assembly).For.Migrations())
+                    .ScanIn(typeof(AddUsersTable).Assembly).For.Migrations()
+                    .ScanIn(typeof(AddAuthorsTable).Assembly).For.Migrations()
+                    .ScanIn(typeof(AddBooksTable).Assembly).For.Migrations()
+                 )
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 .BuildServiceProvider(false);
         }

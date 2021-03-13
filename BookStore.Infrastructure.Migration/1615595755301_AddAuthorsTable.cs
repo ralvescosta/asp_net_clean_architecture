@@ -2,19 +2,17 @@
 
 namespace BookStore.Infrastructure.Migration
 {
-    [Migration(20201203071900)]
-    public class AddUserTable : FluentMigrator.Migration
+    [Migration(1615595755301)]
+    public class AddAuthorsTable : FluentMigrator.Migration
     {
         public override void Up()
         {
-            Create.Table("users")
+            Create.Table("authors")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity()
                 .WithColumn("Guid").AsString(36).NotNullable()
-                .WithColumn("Name").AsString(255).NotNullable()
+                .WithColumn("FirstName").AsString(255).NotNullable()
                 .WithColumn("LastName").AsString(255).NotNullable()
-                .WithColumn("Email").AsString(255).NotNullable()
-                .WithColumn("PasswordHash").AsString(255).NotNullable()
-                .WithColumn("Permission").AsInt64().NotNullable()
+                .WithColumn("Description").AsString(255).NotNullable()
                 .WithColumn("CreatedAt").AsDateTime().NotNullable()
                 .WithColumn("UpdatedAt").AsDateTime().NotNullable()
                 .WithColumn("DeletedAt").AsDateTime().Nullable();
