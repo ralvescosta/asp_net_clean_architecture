@@ -8,7 +8,7 @@
         public abstract TLeft GetLeft();
     }
 
-    public class Left<TLeft, TRight> : Either<TLeft, TRight> where TLeft : class where TRight : class
+    public class Left<TLeft, TRight> : Either<TLeft, TRight>
     {
         TLeft Value { get; }
         public Left(TLeft value)
@@ -18,10 +18,10 @@
         public override bool IsRight() => false;
         public override bool IsLeft() => true;
         public override TLeft GetLeft() => this.Value;
-        public override TRight GetRight() => null;
+        public override TRight GetRight() => default;
     }
 
-    public class Right<TLeft, TRight> : Either<TLeft, TRight> where TLeft : class where TRight : class
+    public class Right<TLeft, TRight> : Either<TLeft, TRight>
     {
         TRight Value { get; }
         public Right(TRight value)
@@ -30,7 +30,7 @@
         }
         public override bool IsRight() => true;
         public override bool IsLeft() => false;
-        public override TLeft GetLeft() => null;
+        public override TLeft GetLeft() => default;
         public override TRight GetRight() => this.Value;
     }
 }

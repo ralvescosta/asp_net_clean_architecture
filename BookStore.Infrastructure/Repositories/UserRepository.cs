@@ -98,5 +98,50 @@ namespace BookStore.Infrastructure.Repositories
                 return new Left<NotificationBase, IEnumerable<User>>(new NotificationBase(ex.Message));
             }
         }
+
+        public async Task<Either<NotificationBase, bool>> Update(User user)
+        {
+            var sql = @"UPDATE users SET";
+
+            if (!string.IsNullOrEmpty(user.Name))
+            {
+                sql += $" Name = '{user.Name}',";
+            }
+            if (!string.IsNullOrEmpty(user.LastName))
+            {
+                sql += $" LastName = '{user.LastName}',";
+            }
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                sql += $" Email = '{user.Email}',";
+            }
+            sql = sql[0..^1];
+            sql += $" WHERE Id = {user.Id}";
+
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql);
+                return new Right<NotificationBase, bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new Left<NotificationBase, bool>(new NotificationBase(ex.Message));
+            }
+        }
+
+        public async Task<Either<NotificationBase, bool>> DeleteBtId(int id)
+        {
+            var sql = $"DELETE from users WHERE Id = {id};";
+
+            try
+            {
+                var result = await dbContext.QueryAsync<User>(sql);
+                return new Right<NotificationBase, bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new Left<NotificationBase, bool>(new NotificationBase(ex.Message));
+            }
+        }
     }
 }
