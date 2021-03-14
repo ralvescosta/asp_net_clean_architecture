@@ -129,7 +129,7 @@ namespace BookStore.Infrastructure.Repositories
             }
         }
 
-        public async Task<Either<NotificationBase, bool>> DeleteBtId(int id)
+        public async Task<Either<NotificationBase, bool>> DeleteById(int id)
         {
             var sql = $"DELETE from users WHERE Id = {id};";
 

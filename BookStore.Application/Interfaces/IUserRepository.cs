@@ -13,6 +13,6 @@ namespace BookStore.Application.Interfaces
         Task<Either<NotificationBase, User>> FindById(int id);
         Task<Either<NotificationBase, IEnumerable<User>>> FindAll();
         Task<Either<NotificationBase, bool>> Update(User user);
-        Task<Either<NotificationBase, bool>> DeleteBtId(int id);
+        Task<Either<NotificationBase, bool>> DeleteById(int id);
     }
 }

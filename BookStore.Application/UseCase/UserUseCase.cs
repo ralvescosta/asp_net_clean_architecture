@@ -53,7 +53,7 @@ namespace BookStore.Application.UseCase
 
         public async Task<Either<NotificationBase, bool>> DeleteAnUserById(int id)
         {
-            var updated = await userRepository.DeleteBtId(id);
+            var updated = await userRepository.DeleteById(id);
             if (updated.IsLeft())
                 return new Left<NotificationBase, bool>(updated.GetLeft());
 

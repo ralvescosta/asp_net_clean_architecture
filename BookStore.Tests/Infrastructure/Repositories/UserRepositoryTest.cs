@@ -68,10 +68,18 @@ namespace BookStore.Tests.Infrastructure.Repositories
         }
 
         [TestMethod]
-        public async Task ShouldReturnUserIfUpdateSuccesfuly()
+        public async Task ShouldReturnTrueIfUpdatedSuccesfuly()
         {
             dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
             var result = await userRepository.Update(new User { Id = 1, Email = "meuEmail@email.com" });
+            Assert.IsTrue(result.IsRight());
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnTrueIfDeletedSuccesfuly()
+        {
+            dbConnFactory.Setup(m => m.QueryAsync<User>(It.IsAny<string>())).Returns(Task.FromResult(new List<User> { userMock }.AsEnumerable()));
+            var result = await userRepository.DeleteById(1);
             Assert.IsTrue(result.IsRight());
         }
     }
