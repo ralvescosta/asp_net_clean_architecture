@@ -18,7 +18,7 @@ namespace BookStore.WebAPI.Middleware
     {
     }
 
-    public class AuthenticationHandler : AuthenticationHandler<AuthenticationOptions>
+    public class AuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IAuthenticationUseCase authenticateUseCase;
         public AuthenticationHandler(

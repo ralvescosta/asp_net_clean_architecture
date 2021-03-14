@@ -19,13 +19,13 @@ namespace BookStore.Infrastructure.Migration
         private static IServiceProvider CreateServices()
         {
             var basePath = Environment.CurrentDirectory;
-            var absolute_path = Path.GetFullPath("..\\..\\..\\..\\BookStore.WebAPI\\BookStore.db", basePath);
+            var absolutePath = Path.GetFullPath("..\\..\\..\\..\\BookStore.WebAPI\\BookStore.db", basePath);
 
             return new ServiceCollection()
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
-                    .WithGlobalConnectionString($"Data Source={absolute_path}")
+                    .WithGlobalConnectionString($"Data Source={absolutePath}")
                     .ScanIn(typeof(AddUsersTable).Assembly).For.Migrations()
                     .ScanIn(typeof(AddAuthorsTable).Assembly).For.Migrations()
                     .ScanIn(typeof(AddBooksTable).Assembly).For.Migrations()

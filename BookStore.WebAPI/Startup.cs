@@ -1,5 +1,7 @@
 using BookStore.Infrastructure.IoC;
 using BookStore.WebAPI.Extensions;
+using BookStore.WebAPI.Middleware;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,8 @@ namespace BookStore.WebAPI
             services.AddConfigurations();
             services.AddSwagger();
             services.AddCustomInvalidModelStateResponse();
+            services.AddAuthentication("Authentication")
+                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("Authentication", null);
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
