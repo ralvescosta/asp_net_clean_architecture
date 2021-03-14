@@ -1,6 +1,7 @@
 ﻿using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 
 namespace BookStore.Infrastructure.Migration
 {
@@ -17,22 +18,25 @@ namespace BookStore.Infrastructure.Migration
 
         private static IServiceProvider CreateServices()
         {
+            var basePath = Environment.CurrentDirectory;
+            var absolutePath = Path.GetFullPath("..\\..\\..\\..\\BookStore.WebAPI\\BookStore.db", basePath);
+
             return new ServiceCollection()
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
-                    .WithGlobalConnectionString("Data Source=C:\\Users\\rafael\\Desktop\\projects\\BookStore\\BookStore.WebAPI\\BookStore.db")
-                    .ScanIn(typeof(AddUserTable).Assembly).For.Migrations())
+                    .WithGlobalConnectionString($"Data Source={absolutePath}")
+                    .ScanIn(typeof(AddUsersTable).Assembly).For.Migrations()
+                    .ScanIn(typeof(AddAuthorsTable).Assembly).For.Migrations()
+                    .ScanIn(typeof(AddBooksTable).Assembly).For.Migrations()
+                    .ScanIn(typeof(AddUsersBooksTable).Assembly).For.Migrations()
+                 )
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 .BuildServiceProvider(false);
         }
-
         private static void UpdateDatabase(IServiceProvider serviceProvider)
         {
-            // Instantiate the runner
             var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-
-            // Execute the migrations
             runner.MigrateUp();
         }
     }

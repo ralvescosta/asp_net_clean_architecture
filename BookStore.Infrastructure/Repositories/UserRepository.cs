@@ -71,7 +71,7 @@ namespace BookStore.Infrastructure.Repositories
             var sql = @"SELECT * FROM users WHERE Id = @Id";
 
             var parameters = new DynamicParameters();
-            parameters.Add("@Email", id, DbType.String);
+            parameters.Add("@Id", id, DbType.String);
 
             try
             {

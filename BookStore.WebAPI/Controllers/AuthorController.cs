@@ -12,46 +12,44 @@ namespace BookStore.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class AuthorController : ControllerBase
     {
-        private readonly IUserUseCase userUseCase;
-        public UserController(IUserUseCase userUseCase)
-        {
-            this.userUseCase = userUseCase;
-        }
 
-        [HttpGet("{id}")]
+        [HttpPost]
         [Authorize]
         [AdminPermission]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAnUserById(int id)
+        public IActionResult CreateAuthor(int id)
         {
-            var user = await userUseCase.GetAnUserById(id);
-            if (user.IsLeft())
-                return Problem();
-
-            return Ok(user.GetRight());
-           
+            var auth = HttpContext.Items["auth"] as AuthenticatedUser;
+            return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [Authorize]
         [AdminPermission]
         [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllUsers()
+        public IActionResult GetAnAuthorId()
         {
-            //var auth = HttpContext.Items["auth"] as AuthenticatedUser;
-            var users = await userUseCase.GetAllUsers();
-            if (users.IsLeft())
-                return Problem();
+            return Ok();
+        }
 
-            return Ok(users.GetRight());
+        [HttpGet]
+        [Authorize]
+        [AdminPermission]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllAuthors()
+        {
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -61,8 +59,9 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult UpdateAnUserById()
+        public IActionResult UpdateAnAuthorById()
         {
+            var auth = HttpContext.Items["auth"] as AuthenticatedUser;
             return Ok();
         }
 
@@ -73,7 +72,7 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteAnUser()
+        public IActionResult DeleteAnAuthor()
         {
             var auth = HttpContext.Items["auth"] as AuthenticatedUser;
             return Ok();

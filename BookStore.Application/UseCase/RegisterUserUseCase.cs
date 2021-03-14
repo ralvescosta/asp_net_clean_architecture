@@ -37,7 +37,7 @@ namespace BookStore.Application.UseCase
                 Name = user.Name,
                 LastName = user.LastName,
                 Email = user.Email,
-                Permission = Permissions.Admin,
+                Permission = Permissions.User,
                 PasswordHash = hasher.Hashe(user.Password)
             };
             var result = await userRepository.SaveUser(newUser);
