@@ -16,6 +16,7 @@ namespace BookStore.Application.UseCase
         {
             this.userRepository = userRepository;
         }
+        
         public async Task<Either<NotificationBase, IEnumerable<User>>> GetAllUsers()
         {
             var users = await userRepository.FindAll();
