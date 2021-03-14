@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Interfaces;
 using BookStore.Application.UseCase;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Shared.Notifications;
@@ -96,6 +97,66 @@ namespace BookStore.Tests.Application
             // Assert
             Assert.IsTrue(users.IsLeft());
             Assert.IsInstanceOfType(users.GetLeft(), typeof(NotificationBase));
+        }
+
+        [TestMethod]
+        public async Task UpdateAnUserByIdShouldReturnUserIfSuccess()
+        {
+            // Arrange
+            userRepository.Setup(m => m.Update(It.IsAny<User>()))
+                .Returns(Task.FromResult<Either<NotificationBase, bool>>(new Right<NotificationBase, bool>(true)));
+
+            // Act
+            var user = await userUsecase.UpdateAnUserById(userMock.Id, new UpdateUserRequestDTO { Name = "Zezinho" });
+
+            // Assert
+            Assert.IsTrue(user.IsRight());
+            Assert.AreEqual(user.GetRight().Name, "Zezinho");
+        }
+
+        [TestMethod]
+        public async Task UpdateAnUserByIdShouldReturnNotificationBaseIfSomethingWrong()
+        {
+            // Arrange
+            userRepository.Setup(m => m.Update(It.IsAny<User>()))
+                .Returns(Task.FromResult<Either<NotificationBase, bool>>(new Left<NotificationBase, bool>(new NotificationBase(""))));
+
+            // Act
+            var user = await userUsecase.UpdateAnUserById(userMock.Id, new UpdateUserRequestDTO { Name = "Zezinho" });
+
+            // Assert
+            Assert.IsTrue(user.IsLeft());
+            Assert.IsInstanceOfType(user.GetLeft(), typeof(NotificationBase));
+        }
+
+        [TestMethod]
+        public async Task DeleteAnUserByIdShouldReturnUserIfSuccess()
+        {
+            // Arrange
+            userRepository.Setup(m => m.DeleteById(It.IsAny<int>()))
+                .Returns(Task.FromResult<Either<NotificationBase, bool>>(new Right<NotificationBase, bool>(true)));
+
+            // Act
+            var result = await userUsecase.DeleteAnUserById(userMock.Id);
+
+            // Assert
+            Assert.IsTrue(result.IsRight());
+            Assert.IsTrue(result.GetRight());
+        }
+
+        [TestMethod]
+        public async Task DeleteAnUserByIdShouldReturnNotificationBaseIfSomethingWrong()
+        {
+            // Arrange
+            userRepository.Setup(m => m.DeleteById(It.IsAny<int>()))
+                .Returns(Task.FromResult<Either<NotificationBase, bool>>(new Left<NotificationBase, bool>(new NotificationBase(""))));
+
+            // Act
+            var result = await userUsecase.DeleteAnUserById(userMock.Id);
+
+            // Assert
+            Assert.IsTrue(result.IsLeft());
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(NotificationBase));
         }
     }
 }
