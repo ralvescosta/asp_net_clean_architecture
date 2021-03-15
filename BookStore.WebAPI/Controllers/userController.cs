@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.Entities;
+﻿using BookStore.Domain.DTOs;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
 using BookStore.WebAPI.Attributes;
@@ -46,7 +47,6 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllUsers()
         {
-            //var auth = HttpContext.Items["auth"] as AuthenticatedUser;
             var users = await userUseCase.GetAllUsers();
             if (users.IsLeft())
                 return Problem();
@@ -57,12 +57,16 @@ namespace BookStore.WebAPI.Controllers
         [HttpPut("{id}")]
         [Authorize]
         [UserPermission]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult UpdateAnUserById()
+        public async Task<IActionResult> UpdateAnUserById(int id, [FromBody] UpdateUserRequestDTO update)
         {
+            var user = await userUseCase.UpdateAnUserById(id, update);
+            if (user.IsLeft())
+                return Problem();
+
             return Ok();
         }
 
@@ -73,9 +77,13 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteAnUser()
+        public async Task<IActionResult> DeleteAnUser(int id)
         {
-            var auth = HttpContext.Items["auth"] as AuthenticatedUser;
+            //var auth = HttpContext.Items["auth"] as AuthenticatedUser;
+            var rsult = await userUseCase.DeleteAnUserById(id);
+            if (rsult.IsLeft())
+                return Problem();
+
             return Ok();
         }
     }

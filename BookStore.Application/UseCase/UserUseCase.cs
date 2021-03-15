@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStore.Application.Interfaces;
 using BookStore.Shared.Utils;
 using BookStore.Shared.Notifications;
+using BookStore.Domain.DTOs;
 
 namespace BookStore.Application.UseCase
 {
@@ -15,6 +16,7 @@ namespace BookStore.Application.UseCase
         {
             this.userRepository = userRepository;
         }
+        
         public async Task<Either<NotificationBase, IEnumerable<User>>> GetAllUsers()
         {
             var users = await userRepository.FindAll();
@@ -31,6 +33,32 @@ namespace BookStore.Application.UseCase
                 return new Left<NotificationBase, User>(user.GetLeft());
 
             return new Right<NotificationBase, User>(user.GetRight());
+        }
+
+        public async Task<Either<NotificationBase, User>> UpdateAnUserById(int id, UpdateUserRequestDTO update)
+        {
+            var user = new User
+            {
+                Id = id,
+                Name = update.Name,
+                LastName = update.LastName,
+                Email = update.Email
+            };
+
+            var updated = await userRepository.Update(user);
+            if (updated.IsLeft())
+                return new Left<NotificationBase, User>(updated.GetLeft());
+
+            return new Right<NotificationBase, User>(user);
+        }
+
+        public async Task<Either<NotificationBase, bool>> DeleteAnUserById(int id)
+        {
+            var updated = await userRepository.DeleteById(id);
+            if (updated.IsLeft())
+                return new Left<NotificationBase, bool>(updated.GetLeft());
+
+            return new Right<NotificationBase, bool>(true);
         }
     }
 }

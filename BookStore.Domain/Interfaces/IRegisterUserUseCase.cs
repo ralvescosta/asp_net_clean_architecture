@@ -8,6 +8,6 @@ namespace BookStore.Domain.Interfaces
 {
     public interface IRegisterUserUseCase
     {
-        Task<Either<NotificationBase, User>> Register(UserRegistrationRequestDTO user);
+        Task<Either<NotificationBase, User>> Register(SignUpRequestDTO user);
     }
 }

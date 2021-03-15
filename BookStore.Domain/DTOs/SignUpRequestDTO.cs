@@ -2,8 +2,8 @@
 
 namespace BookStore.Domain.DTOs
 {
-    [Display(Name = "UserRegistrationRequestSchema")]
-    public class UserRegistrationRequestDTO
+    [Display(Name = "SignUpRequestSchema")]
+    public class SignUpRequestDTO
     {
         [Required]
         [StringLength(80, MinimumLength = 4)]

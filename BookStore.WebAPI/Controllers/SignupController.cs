@@ -24,7 +24,7 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateUser([FromBody] UserRegistrationRequestDTO request)
+        public async Task<IActionResult> CreateUser([FromBody] SignUpRequestDTO request)
         {
             var result = await registerUserUseCase.Register(request);
 

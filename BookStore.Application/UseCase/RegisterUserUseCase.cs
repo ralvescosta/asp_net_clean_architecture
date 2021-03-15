@@ -20,7 +20,7 @@ namespace BookStore.Application.UseCase
             this.userRepository = userRepository;
             this.hasher = hasher;
         }
-        public async Task<Either<NotificationBase, User>> Register(UserRegistrationRequestDTO user)
+        public async Task<Either<NotificationBase, User>> Register(SignUpRequestDTO user)
         {
             var savedUser = await userRepository.FindByEmail(user.Email);
             if (savedUser.IsLeft())

@@ -20,7 +20,7 @@ namespace BookStore.Tests.Application
         private Mock<IUserRepository> userRepository;
         private Mock<IHasherService> hasher;
         private User mockedUser;
-        private UserRegistrationRequestDTO mockedUserRegistration;
+        private SignUpRequestDTO mockedUserRegistration;
 
         [TestInitialize]
         public void TestInitialize() 
@@ -38,7 +38,7 @@ namespace BookStore.Tests.Application
                 Permission = Permissions.User,
             };
 
-            mockedUserRegistration = new UserRegistrationRequestDTO()
+            mockedUserRegistration = new SignUpRequestDTO()
             {
                 Name = "Fulano",
                 LastName = "DeTal",
