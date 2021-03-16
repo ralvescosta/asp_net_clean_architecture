@@ -45,7 +45,7 @@ namespace BookStore.Tests.Infrastructure.Repositories
         public async Task ShouldReturnUserIfFindByGuidSuccesfuly()
         {
             dbConnFactory.Setup(m => m.QueryAsync<Author>(It.IsAny<string>(), It.IsAny<IDynamicParameters>())).Returns(Task.FromResult(new List<Author> { authorMock }.AsEnumerable()));
-            var result = await authorRepository.FindByGuid(authorMock.Guid);
+            var result = await authorRepository.FindByName(authorMock.FirstName, authorMock.LastName);
             Assert.AreEqual(result.GetRight().Guid, authorMock.Guid);
         }
 

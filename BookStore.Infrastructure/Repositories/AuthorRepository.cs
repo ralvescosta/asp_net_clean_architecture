@@ -46,12 +46,13 @@ namespace BookStore.Infrastructure.Repositories
             }
         }
 
-        public async Task<Either<NotificationBase, Author>> FindByGuid(string guid)
+        public async Task<Either<NotificationBase, Author>> FindByName(string firstName, string lastName)
         {
-            var sql = @"SELECT * FROM authors WHERE Guid = @Guid";
+            var sql = @"SELECT * FROM authors WHERE FirstName = @FirstName AND LastName = @LastName";
 
             var parameters = new DynamicParameters();
-            parameters.Add("@Guid", guid, DbType.String);
+            parameters.Add("@FirstName", firstName, DbType.String);
+            parameters.Add("@LastName", lastName, DbType.String);
 
             try
             {
