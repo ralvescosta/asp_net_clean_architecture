@@ -59,7 +59,7 @@ namespace BookStore.Tests.Application
 
             // Assert
             Assert.IsTrue(result.IsLeft());
-            Assert.IsInstanceOfType(result.GetLeft(), typeof(EmailAlreadyExistNotification));
+            Assert.IsInstanceOfType(result.GetLeft(), typeof(AlreadyExistNotification));
         }
 
         [TestMethod]
