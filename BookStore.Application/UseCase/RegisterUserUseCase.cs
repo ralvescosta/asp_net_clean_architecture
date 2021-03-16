@@ -28,7 +28,7 @@ namespace BookStore.Application.UseCase
 
             if(savedUser.GetRight() != null)
             {
-                return new Left<NotificationBase, User>(new EmailAlreadyExistNotification("Email already exist"));
+                return new Left<NotificationBase, User>(new AlreadyExistNotification("Email already exist"));
             }
 
             var newUser = new User

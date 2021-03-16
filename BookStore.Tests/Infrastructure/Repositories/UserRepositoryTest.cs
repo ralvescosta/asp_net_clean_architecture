@@ -24,7 +24,7 @@ namespace BookStore.Tests.Infrastructure.Repositories
         {
             dbConnFactory = new Mock<IDbContext>();
             userRepository = new UserRepository(dbConnFactory.Object);
-            userMock = new User()
+            userMock = new User
             {
                 Email = "user@email.com",
                 PasswordHash = "hashed",
