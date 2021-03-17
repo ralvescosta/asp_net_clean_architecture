@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.DTOs;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
@@ -10,6 +11,11 @@ namespace BookStore.Application.UseCase
 {
     public class BookUseCase : IBookUseCase
     {
+        private readonly IBookRepository bookRepository;
+        public BookUseCase(IBookRepository bookRepository) 
+        {
+            this.bookRepository = bookRepository;
+        }
         public Task<Either<NotificationBase, Book>> CreateBook(CreateBookRequestDTO create)
         {
             throw new System.NotImplementedException();
