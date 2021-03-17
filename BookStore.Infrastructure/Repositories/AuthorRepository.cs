@@ -70,7 +70,7 @@ namespace BookStore.Infrastructure.Repositories
             var sql = @"SELECT * FROM authors WHERE Id = @Id";
 
             var parameters = new DynamicParameters();
-            parameters.Add("@Guid", id, DbType.Int32);
+            parameters.Add("@Id", id, DbType.Int32);
 
             try
             {
