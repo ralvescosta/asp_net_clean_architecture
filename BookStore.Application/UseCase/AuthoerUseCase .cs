@@ -11,10 +11,10 @@ using System;
 
 namespace BookStore.Application.UseCase
 {
-    public class AutherUseCase : IAuthorUseCase
+    public class AuthorUseCase : IAuthorUseCase
     {
         private readonly IAuthorRepository authorRepository;
-        public AutherUseCase(IAuthorRepository authorRepository) 
+        public AuthorUseCase(IAuthorRepository authorRepository) 
         {
             this.authorRepository = authorRepository;
         }

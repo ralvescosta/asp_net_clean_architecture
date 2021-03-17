@@ -14,6 +14,11 @@ namespace BookStore.WebAPI.Controllers
     [Route("api/[controller]")]
     public class AuthorController : ControllerBase
     {
+        private readonly IAuthorUseCase authorUseCase;
+        public AuthorController(IAuthorUseCase authorUseCase)
+        {
+            this.authorUseCase = authorUseCase;
+        }
 
         [HttpPost]
         [Authorize]
