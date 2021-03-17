@@ -20,6 +20,7 @@ namespace BookStore.Infrastructure.IoC
             services.AddScoped<ISessionUseCase, SessionUseCase>();
             services.AddScoped<IUserUseCase, UserUseCase>();
             services.AddScoped<IAuthorUseCase, AuthorUseCase>();
+            services.AddScoped<IBookUseCase, BookUseCase>();
             return services;
         }
         public static IServiceCollection AddRepositories(this IServiceCollection services) 
