@@ -10,6 +10,7 @@ namespace BookStore.Domain.DTOs
         [StringLength(80, MinimumLength = 4)]
         public string LastName { get; set; }
 
+        [Required]
         public string Description { get; set; }
     }
 }

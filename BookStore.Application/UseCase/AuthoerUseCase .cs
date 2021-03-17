@@ -48,7 +48,7 @@ namespace BookStore.Application.UseCase
             return new Right<NotificationBase, IEnumerable<Author>>(authors.GetRight());
         }
 
-        public async Task<Either<NotificationBase, Author>> GetAnUserById(int id)
+        public async Task<Either<NotificationBase, Author>> GetAnAuthorById(int id)
         {
             var author = await authorRepository.FindById(id);
             if (author.IsLeft())
@@ -57,7 +57,7 @@ namespace BookStore.Application.UseCase
             return new Right<NotificationBase, Author>(author.GetRight());
         }
 
-        public async Task<Either<NotificationBase, Author>> UpdateAnUserById(int id, UpdateAuthorRequestDTO update)
+        public async Task<Either<NotificationBase, Author>> UpdateAnAuthorById(int id, UpdateAuthorRequestDTO update)
         {
             var author = new Author
             {
@@ -74,7 +74,7 @@ namespace BookStore.Application.UseCase
             return new Right<NotificationBase, Author>(author);
         }
 
-        public async Task<Either<NotificationBase, bool>> DeleteAnUserById(int id)
+        public async Task<Either<NotificationBase, bool>> DeleteAnAuthorById(int id)
         {
             var deleted = await authorRepository.DeleteById(id);
             if (deleted.IsLeft())

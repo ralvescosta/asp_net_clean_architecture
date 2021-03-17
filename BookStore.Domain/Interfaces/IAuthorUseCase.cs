@@ -11,8 +11,8 @@ namespace BookStore.Domain.Interfaces
     {
         Task<Either<NotificationBase, Author>> CreateAuthor(CreateAuthorRequestDTO create);
         Task<Either<NotificationBase, IEnumerable<Author>>> GetAllAuthors();
-        Task<Either<NotificationBase, Author>> GetAnUserById(int id);
-        Task<Either<NotificationBase, Author>> UpdateAnUserById(int id, UpdateAuthorRequestDTO update);
-        Task<Either<NotificationBase, bool>> DeleteAnUserById(int id);
+        Task<Either<NotificationBase, Author>> GetAnAuthorById(int id);
+        Task<Either<NotificationBase, Author>> UpdateAnAuthorById(int id, UpdateAuthorRequestDTO update);
+        Task<Either<NotificationBase, bool>> DeleteAnAuthorById(int id);
     }
 }
