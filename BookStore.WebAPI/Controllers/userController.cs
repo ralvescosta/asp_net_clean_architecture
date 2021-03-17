@@ -35,7 +35,6 @@ namespace BookStore.WebAPI.Controllers
                 return Problem();
 
             return Ok(user.GetRight());
-           
         }
 
         [HttpGet]

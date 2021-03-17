@@ -19,11 +19,13 @@ namespace BookStore.Infrastructure.IoC
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddScoped<ISessionUseCase, SessionUseCase>();
             services.AddScoped<IUserUseCase, UserUseCase>();
+            services.AddScoped<IAuthorUseCase, AuthorUseCase>();
             return services;
         }
         public static IServiceCollection AddRepositories(this IServiceCollection services) 
         {
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IHasherService, HasherService>();
             services.AddScoped<ITokenManagerService, TokenManagerService>();
             services.AddSingleton<IDbContext, SQLiteDbContext>();

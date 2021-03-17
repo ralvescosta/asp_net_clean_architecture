@@ -4,6 +4,6 @@ namespace BookStore.Application.Notifications
 {
     public class AlreadyExistNotification : NotificationBase
     {
-        public AlreadyExistNotification(string message = "EmailAlreadyExistNotification") : base(message) { }
+        public AlreadyExistNotification(string message = "AlreadyExistNotification") : base(message) { }
     }
 }
