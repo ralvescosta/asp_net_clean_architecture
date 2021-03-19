@@ -1,4 +1,5 @@
 ﻿using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
 using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
@@ -20,6 +21,13 @@ namespace BookStore.Application.UseCase
 
         public async Task<Either<NotificationBase, Book>> CreateBook(CreateBookRequestDTO create)
         {
+            var search = await bookRepository.FindByTitle(create.Title);
+            if (search.IsLeft())
+                return new Left<NotificationBase, Book>(search.GetLeft());
+
+            if(search.GetRight() != null)
+                return new Left<NotificationBase, Book>(new AlreadyExistNotification());
+
             var book = new Book { 
                 AuthorId = create.AuthorId, 
                 Title = create.Title, 
