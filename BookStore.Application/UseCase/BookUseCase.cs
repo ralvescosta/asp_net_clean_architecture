@@ -4,6 +4,7 @@ using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
 using BookStore.Shared.Utils;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,9 +18,20 @@ namespace BookStore.Application.UseCase
             this.bookRepository = bookRepository;
         }
 
-        public Task<Either<NotificationBase, Book>> CreateBook(CreateBookRequestDTO create)
+        public async Task<Either<NotificationBase, Book>> CreateBook(CreateBookRequestDTO create)
         {
-            throw new System.NotImplementedException();
+            var book = new Book { 
+                AuthorId = create.AuthorId, 
+                Title = create.Title, 
+                Subtitle = create.Subtitle, 
+                Subject = create.Subject, 
+                Guid = Guid.NewGuid().ToString() 
+            };
+            var result = await bookRepository.Create(book);
+            if (result.IsLeft())
+                return new Left<NotificationBase, Book>(result.GetLeft());
+
+            return new Right<NotificationBase, Book>(result.GetRight());
         }
 
         public async Task<Either<NotificationBase, IEnumerable<Book>>> GetAllBooks()
@@ -31,19 +43,32 @@ namespace BookStore.Application.UseCase
             return new Right<NotificationBase, IEnumerable<Book>>(books.GetRight());
         }
 
-        public Task<Either<NotificationBase, Book>> GetAnBookById(int id)
+        public async Task<Either<NotificationBase, Book>> GetAnBookById(int id)
         {
-            throw new System.NotImplementedException();
+            var book = await bookRepository.FindById(id);
+            if (book.IsLeft())
+                return new Left<NotificationBase, Book>(book.GetLeft());
+
+            return new Right<NotificationBase, Book>(book.GetRight());
         }
 
-        public Task<Either<NotificationBase, Book>> UpdateAnBookById(int id, object update)
+        public async Task<Either<NotificationBase, Book>> UpdateAnBookById(int id, UpdateBookRequestDTO update)
         {
-            throw new System.NotImplementedException();
+            var book = new Book { Id = id, Title = update.Title, Subtitle = update.Subtitle, Subject = update.Subject };
+            var result = await bookRepository.Update(book);
+            if (result.IsLeft())
+                return new Left<NotificationBase, Book>(result.GetLeft());
+
+            return new Right<NotificationBase, Book>(book);
         }
 
-        public Task<Either<NotificationBase, bool>> DeleteAnBookById(int id)
+        public async Task<Either<NotificationBase, bool>> DeleteAnBookById(int id)
         {
-            throw new System.NotImplementedException();
+            var result = await bookRepository.DeleteById(id);
+            if (result.IsLeft())
+                return new Left<NotificationBase, bool>(result.GetLeft());
+
+            return new Right<NotificationBase, bool>(result.GetRight());
         }
     }
 }
