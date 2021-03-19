@@ -1,6 +1,7 @@
 ﻿using BookStore.Infrastructure.Interfaces;
 using Dapper;
 using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace BookStore.Infrastructure.Database
         public Task<IEnumerable<T>> QueryAsync<T>(string query, IDynamicParameters param)
         {
             return dbConn.QueryAsync<T>(query, param);
+        }
+
+        public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string query, Func<TFirst, TSecond, TReturn> map)
+        {
+            return dbConn.QueryAsync<TFirst, TSecond, TReturn>(query, map);
         }
     }
 }

@@ -130,11 +130,14 @@ namespace BookStore.Infrastructure.Repositories
 
         public async Task<Either<NotificationBase, bool>> DeleteById(int id)
         {
-            var sql = $"DELETE from authors WHERE Id = {id};";
+            var sql = $"DELETE from authors WHERE Id = @Id";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32);
 
             try
             {
-                var result = await dbContext.QueryAsync<Author>(sql);
+                var result = await dbContext.QueryAsync<Author>(sql, parameters);
                 return new Right<NotificationBase, bool>(true);
             }
             catch (Exception ex)
