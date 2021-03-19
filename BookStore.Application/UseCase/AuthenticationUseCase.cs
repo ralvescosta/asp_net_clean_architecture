@@ -32,7 +32,8 @@ namespace BookStore.Application.UseCase
                 return new Left<NotificationBase, AuthenticatedUser>(new UnauthorizedNotification());
 
             var user = await userRepository.FindById(tokenData.GetRight().Id);
-            if (user.GetRight() == null) throw new UnauthorizedExcpetion();
+            if (user.GetRight() == null) 
+                return new Left<NotificationBase, AuthenticatedUser>(new UnauthorizedNotification());
 
             var autheticatedUser = VerifyPermission(user.GetRight(), permissionRequired);
             if(autheticatedUser == null)
