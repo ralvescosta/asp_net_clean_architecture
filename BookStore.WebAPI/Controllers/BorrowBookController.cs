@@ -1,5 +1,4 @@
 ﻿using BookStore.Application.Notifications;
-using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
@@ -9,18 +8,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookStore.WebAPI.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class BookController : ControllerBase
+    [ApiController]
+    public class BorrowBookController : ControllerBase
     {
-        private readonly IBookUseCase bookUseCase;
-        public BookController (IBookUseCase bookUseCase)
+        private readonly IBorrowBookUseCase borrowBookUseCase;
+        public BorrowBookController(IBorrowBookUseCase borrowBookUseCase)
         {
-            this.bookUseCase = bookUseCase;
+            this.borrowBookUseCase = borrowBookUseCase;
         }
 
         [HttpPost]
@@ -30,9 +30,9 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateBook([FromBody] CreateBookRequestDTO book)
+        public async Task<IActionResult> CreateAuthor()
         {
-            var result = await bookUseCase.CreateBook(book);
+            var result = await borrowBookUseCase.BorrowABook();
 
             if (result.IsRight())
                 return Ok();
@@ -47,14 +47,13 @@ namespace BookStore.WebAPI.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [AdminPermission]
-        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UsersBooks), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAnBookById(int id)
+        public async Task<IActionResult> GetAnAuthorId(int id)
         {
-            var result = await bookUseCase.GetAnBookById(id);
-
+            var result = await borrowBookUseCase.GetAnBorrowedBookById(id);
             if (result.IsRight())
                 return Ok(result.GetRight());
 
@@ -68,13 +67,13 @@ namespace BookStore.WebAPI.Controllers
         [HttpGet]
         [Authorize]
         [AdminPermission]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<UsersBooks>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllAuthors()
         {
-            var author = await bookUseCase.GetAllBooks();
+            var author = await borrowBookUseCase.GetAllBorrowedBook();
             if (author.IsLeft())
                 return Problem();
 
@@ -84,14 +83,13 @@ namespace BookStore.WebAPI.Controllers
         [HttpPut("{id}")]
         [Authorize]
         [UserPermission]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UsersBooks), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateAnBookById(int id, [FromBody] UpdateBookRequestDTO update)
+        public async Task<IActionResult> UpdateAnAuthorById(int id)
         {
-            //var auth = HttpContext.Items["auth"] as AuthenticatedUser;
-            var result = await bookUseCase.UpdateAnBookById(id, update);
+            var result = await borrowBookUseCase.UpdateABorrowedBookById(id);
             if (result.IsRight())
                 return Ok(result.GetRight());
 
@@ -109,9 +107,9 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteAnBook(int id)
+        public async Task<IActionResult> DeleteAnAuthor(int id)
         {
-            var result = await bookUseCase.DeleteAnBookById(id);
+            var result = await borrowBookUseCase.DeleteAnAuthorById(id);
             if (result.IsRight())
                 return Ok(result.GetRight());
 
