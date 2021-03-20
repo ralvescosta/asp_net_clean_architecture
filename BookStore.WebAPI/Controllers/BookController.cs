@@ -83,10 +83,10 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateAnBookById(int id)
+        public async Task<IActionResult> UpdateAnBookById(int id, [FromBody] UpdateBookRequestDTO update)
         {
             //var auth = HttpContext.Items["auth"] as AuthenticatedUser;
-            var author = await bookUseCase.UpdateAnBookById(id, new { });
+            var author = await bookUseCase.UpdateAnBookById(id, update);
             if (author.IsLeft())
                 return Problem();
 
