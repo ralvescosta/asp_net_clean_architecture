@@ -39,7 +39,7 @@ namespace BookStore.Application.UseCase
             if (result.IsLeft())
                 return new Left<NotificationBase, Book>(result.GetLeft());
 
-            return new Right<NotificationBase, Book>(result.GetRight());
+            return new Right<NotificationBase, Book>(book);
         }
 
         public async Task<Either<NotificationBase, IEnumerable<Book>>> GetAllBooks()
