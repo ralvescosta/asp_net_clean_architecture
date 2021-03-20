@@ -59,7 +59,7 @@ namespace BookStore.WebAPI.Controllers
 
             return result.GetLeft().GetType() switch
             {
-                Type t when t == typeof(NotFoundNotification) => NotFound(result.GetLeft().Message),
+                Type t when t == typeof(NotFoundNotification) => NotFound(),
                 _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
             };
         }
