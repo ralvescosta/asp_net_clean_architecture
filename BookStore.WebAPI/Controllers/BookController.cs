@@ -53,11 +53,16 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAnBookById(int id)
         {
-            var author = await bookUseCase.DeleteAnBookById(id);
-            if (author.IsLeft())
-                return Problem();
+            var result = await bookUseCase.GetAnBookById(id);
 
-            return Ok(author.GetRight());
+            if (result.IsRight())
+                return Ok(result.GetRight());
+
+            return result.GetLeft().GetType() switch
+            {
+                Type t when t == typeof(NotFoundNotification) => NotFound(result.GetLeft().Message),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
 
         [HttpGet]

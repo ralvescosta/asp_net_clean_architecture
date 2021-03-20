@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.DTOs;
+﻿using BookStore.Application.Notifications;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
@@ -6,6 +7,7 @@ using BookStore.WebAPI.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,11 +32,15 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAnUserById(int id)
         {
-            var user = await userUseCase.GetAnUserById(id);
-            if (user.IsLeft())
-                return Problem();
+            var result = await userUseCase.GetAnUserById(id);
+            if (result.IsRight())
+                return Ok(result.GetRight());
 
-            return Ok(user.GetRight());
+            return result.GetLeft().GetType() switch
+            {
+                Type t when t == typeof(NotFoundNotification) => NotFound(result.GetLeft().Message),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
 
         [HttpGet]

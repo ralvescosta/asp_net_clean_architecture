@@ -40,5 +40,10 @@ namespace BookStore.Infrastructure.Database
         {
             return dbConn.QueryAsync<TFirst, TSecond, TReturn>(query, map);
         }
+
+        public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string query, IDynamicParameters param, Func<TFirst, TSecond, TReturn> map)
+        {
+            return dbConn.QueryAsync<TFirst, TSecond, TReturn>(query, map, param);
+        }
     }
 }

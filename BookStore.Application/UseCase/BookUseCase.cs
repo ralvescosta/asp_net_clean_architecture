@@ -57,6 +57,9 @@ namespace BookStore.Application.UseCase
             if (book.IsLeft())
                 return new Left<NotificationBase, Book>(book.GetLeft());
 
+            if(book.GetRight() == null)
+                return new Left<NotificationBase, Book>(new NotFoundNotification("Book Not Found"));
+
             return new Right<NotificationBase, Book>(book.GetRight());
         }
 
