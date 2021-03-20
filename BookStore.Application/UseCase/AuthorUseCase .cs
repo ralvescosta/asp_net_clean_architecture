@@ -21,11 +21,11 @@ namespace BookStore.Application.UseCase
 
         public async Task<Either<NotificationBase, Author>> CreateAuthor(CreateAuthorRequestDTO create)
         {
-            var result = await authorRepository.FindByName(create.FirstName, create.LastName);
-            if (result.IsLeft())
-                return new Left<NotificationBase, Author>(result.GetLeft());
+            var search = await authorRepository.FindByName(create.FirstName, create.LastName);
+            if (search.IsLeft())
+                return new Left<NotificationBase, Author>(search.GetLeft());
 
-            if(result.GetRight() != null)
+            if(search.GetRight() != null)
                 return new Left<NotificationBase, Author>(new AlreadyExistNotification());
 
             var author = new Author
@@ -35,7 +35,7 @@ namespace BookStore.Application.UseCase
                 Description = create.Description,
                 Guid = Guid.NewGuid().ToString()
             };
-            result = await authorRepository.SaveAuthor(author);
+            var result = await authorRepository.SaveAuthor(author);
             if (result.IsLeft())
                 return new Left<NotificationBase, Author>(result.GetLeft());
 
