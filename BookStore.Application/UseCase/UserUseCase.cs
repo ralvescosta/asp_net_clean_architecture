@@ -6,6 +6,7 @@ using BookStore.Application.Interfaces;
 using BookStore.Shared.Utils;
 using BookStore.Shared.Notifications;
 using BookStore.Domain.DTOs;
+using BookStore.Application.Notifications;
 
 namespace BookStore.Application.UseCase
 {
@@ -31,6 +32,9 @@ namespace BookStore.Application.UseCase
             var user = await userRepository.FindById(id);
             if (user.IsLeft())
                 return new Left<NotificationBase, User>(user.GetLeft());
+
+            if(user.GetRight() == null)
+                return new Left<NotificationBase, User>(new NotFoundNotification("User Not Found"));
 
             return new Right<NotificationBase, User>(user.GetRight());
         }
