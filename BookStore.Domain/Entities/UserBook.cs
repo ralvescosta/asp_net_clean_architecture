@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Entities
 {
-    public class UsersBooks
+    public class UserBook
     {
     }
 }

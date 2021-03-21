@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.Entities;
+﻿using BookStore.Application.Interfaces;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
 using BookStore.Shared.Utils;
@@ -9,7 +10,12 @@ namespace BookStore.Application.UseCase
 {
     public class BorrowBookUseCase : IBorrowBookUseCase
     {
-        public Task<Either<NotificationBase, UsersBooks>> BorrowABook()
+        private readonly IUserBookRepository userBookRepository;
+        public BorrowBookUseCase(IUserBookRepository userBookRepository) 
+        {
+            this.userBookRepository = userBookRepository;
+        }
+        public Task<Either<NotificationBase, UserBook>> BorrowABook()
         {
             throw new System.NotImplementedException();
         }
@@ -19,17 +25,17 @@ namespace BookStore.Application.UseCase
             throw new System.NotImplementedException();
         }
 
-        public Task<Either<NotificationBase, IEnumerable<UsersBooks>>> GetAllBorrowedBook()
+        public Task<Either<NotificationBase, IEnumerable<UserBook>>> GetAllBorrowedBook()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Either<NotificationBase, UsersBooks>> GetAnBorrowedBookById(int id)
+        public Task<Either<NotificationBase, UserBook>> GetAnBorrowedBookById(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Either<NotificationBase, UsersBooks>> UpdateABorrowedBookById(int id)
+        public Task<Either<NotificationBase, UserBook>> UpdateABorrowedBookById(int id)
         {
             throw new System.NotImplementedException();
         }
