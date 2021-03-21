@@ -8,8 +8,11 @@ namespace BookStore.Domain.Entities
         public string Guid { get; set; }
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public DateTime EpiredAt { get; set; }
+        public DateTime ExpiredAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public User User { get; set; }
+        public Book Book { get; set; }
     }
 }
