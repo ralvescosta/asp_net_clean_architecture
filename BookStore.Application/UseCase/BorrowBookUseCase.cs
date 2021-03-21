@@ -42,24 +42,52 @@ namespace BookStore.Application.UseCase
             return new Right<NotificationBase, UserBook>(userBook);
         }
 
-        public Task<Either<NotificationBase, bool>> DeleteAnAuthorById(int id)
+        public async Task<Either<NotificationBase, IEnumerable<UserBook>>> GetAllBorrowedBook()
         {
-            throw new System.NotImplementedException();
+            var usersBooks = await userBookRepository.FindAll();
+            if (usersBooks.IsLeft())
+                return new Left<NotificationBase, IEnumerable<UserBook>>(usersBooks.GetLeft());
+
+            return new Right<NotificationBase, IEnumerable<UserBook>>(usersBooks.GetRight());
         }
 
-        public Task<Either<NotificationBase, IEnumerable<UserBook>>> GetAllBorrowedBook()
+        public async Task<Either<NotificationBase, UserBook>> GetAnBorrowedBookById(int id)
         {
-            throw new System.NotImplementedException();
+            var userBook = await userBookRepository.FindById(id);
+            if (userBook.IsLeft())
+                return new Left<NotificationBase, UserBook>(userBook.GetLeft());
+
+            if (userBook.GetRight() == null)
+                return new Left<NotificationBase, UserBook>(new NotFoundNotification("Borrow Not Found"));
+
+            return new Right<NotificationBase, UserBook>(userBook.GetRight());
         }
 
-        public Task<Either<NotificationBase, UserBook>> GetAnBorrowedBookById(int id)
+        public async Task<Either<NotificationBase, UserBook>> UpdateABorrowedBookById(int id)
         {
-            throw new System.NotImplementedException();
-        }
+            var userBook = await userBookRepository.FindById(id);
+            if (userBook.IsLeft())
+                return new Left<NotificationBase, UserBook>(userBook.GetLeft());
 
-        public Task<Either<NotificationBase, UserBook>> UpdateABorrowedBookById(int id)
+            if (userBook.GetRight() == null)
+                return new Left<NotificationBase, UserBook>(new NotFoundNotification("Borrow Not Found"));
+
+            return new Right<NotificationBase, UserBook>(new UserBook { });
+        }
+        public async Task<Either<NotificationBase, bool>> DeleteAnAuthorById(int id)
         {
-            throw new System.NotImplementedException();
+            var userBook = await userBookRepository.FindById(id);
+            if (userBook.IsLeft())
+                return new Left<NotificationBase, bool>(userBook.GetLeft());
+
+            if (userBook.GetRight() == null)
+                return new Left<NotificationBase, bool>(new NotFoundNotification("Borrow Not Found"));
+
+            var result = await userBookRepository.DeleteById(id);
+            if(result.IsLeft())
+                return new Left<NotificationBase, bool>(userBook.GetLeft());
+
+            return new Right<NotificationBase, bool>(true);
         }
     }
 }
