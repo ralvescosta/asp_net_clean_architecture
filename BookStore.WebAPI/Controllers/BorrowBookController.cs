@@ -1,4 +1,5 @@
 ﻿using BookStore.Application.Notifications;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
@@ -30,9 +31,9 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(NotificationBase), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateAuthor()
+        public async Task<IActionResult> CreateAuthor([FromBody] CreateBorrowBookRequestDTO borrowBook)
         {
-            var result = await borrowBookUseCase.BorrowABook();
+            var result = await borrowBookUseCase.BorrowABook(borrowBook);
 
             if (result.IsRight())
                 return Ok();

@@ -9,7 +9,7 @@ namespace BookStore.Domain.Interfaces
 {
     public interface IBorrowBookUseCase
     {
-        Task<Either<NotificationBase, UserBook>> BorrowABook();
+        Task<Either<NotificationBase, UserBook>> BorrowABook(CreateBorrowBookRequestDTO borrowBook);
         Task<Either<NotificationBase, IEnumerable<UserBook>>> GetAllBorrowedBook();
         Task<Either<NotificationBase, UserBook>> GetAnBorrowedBookById(int id);
         Task<Either<NotificationBase, UserBook>> UpdateABorrowedBookById(int id);

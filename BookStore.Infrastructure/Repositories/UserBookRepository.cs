@@ -20,6 +20,10 @@ namespace BookStore.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+        public Task<Either<NotificationBase, UserBook>> FindByBookId(int id)
+        {
+            throw new NotImplementedException();
+        }
         public Task<Either<NotificationBase, IEnumerable<UserBook>>> FindAll()
         {
             throw new NotImplementedException();

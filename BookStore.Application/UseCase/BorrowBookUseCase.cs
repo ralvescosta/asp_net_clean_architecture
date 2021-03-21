@@ -1,8 +1,11 @@
 ﻿using BookStore.Application.Interfaces;
+using BookStore.Application.Notifications;
+using BookStore.Domain.DTOs;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Shared.Notifications;
 using BookStore.Shared.Utils;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,13 +14,32 @@ namespace BookStore.Application.UseCase
     public class BorrowBookUseCase : IBorrowBookUseCase
     {
         private readonly IUserBookRepository userBookRepository;
+        private readonly int maxBorrowedDays = 7;
         public BorrowBookUseCase(IUserBookRepository userBookRepository) 
         {
             this.userBookRepository = userBookRepository;
         }
-        public Task<Either<NotificationBase, UserBook>> BorrowABook()
+        public async Task<Either<NotificationBase, UserBook>> BorrowABook(CreateBorrowBookRequestDTO borrowBook)
         {
-            throw new System.NotImplementedException();
+            var borrowed = await userBookRepository.FindByBookId(borrowBook.BookId);
+            if (borrowed.IsLeft())
+                return new Left<NotificationBase, UserBook>(borrowed.GetLeft());
+
+            if (borrowed.GetRight() != null)
+                return new Left<NotificationBase, UserBook>(new NotAcceptableNotification("Book already borrowed!"));
+
+            var userBook = new UserBook
+            {
+                Guid = Guid.NewGuid().ToString(),
+                UserId = borrowBook.UserId,
+                BookId = borrowBook.BookId,
+                EpiredAt = DateTime.Now.AddDays(maxBorrowedDays),
+            };
+            var result = await userBookRepository.SaveUserBook(userBook);
+            if (result.IsLeft())
+                return new Left<NotificationBase, UserBook>(result.GetLeft());
+
+            return new Right<NotificationBase, UserBook>(userBook);
         }
 
         public Task<Either<NotificationBase, bool>> DeleteAnAuthorById(int id)
