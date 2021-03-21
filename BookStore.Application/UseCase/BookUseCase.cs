@@ -39,7 +39,7 @@ namespace BookStore.Application.UseCase
             if (result.IsLeft())
                 return new Left<NotificationBase, Book>(result.GetLeft());
 
-            return new Right<NotificationBase, Book>(result.GetRight());
+            return new Right<NotificationBase, Book>(book);
         }
 
         public async Task<Either<NotificationBase, IEnumerable<Book>>> GetAllBooks()
@@ -56,6 +56,9 @@ namespace BookStore.Application.UseCase
             var book = await bookRepository.FindById(id);
             if (book.IsLeft())
                 return new Left<NotificationBase, Book>(book.GetLeft());
+
+            if(book.GetRight() == null)
+                return new Left<NotificationBase, Book>(new NotFoundNotification("Book Not Found"));
 
             return new Right<NotificationBase, Book>(book.GetRight());
         }

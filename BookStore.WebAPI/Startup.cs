@@ -50,6 +50,11 @@ namespace BookStore.WebAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreBook API");
             });
+
+            //var builder = new RouteBuilder(app);
+            //builder.MapMiddlewarePost("/api/v1/book", appBuilder => {
+            //    appBuilder.Use(Middleware);
+            //});
         }
     }
 }

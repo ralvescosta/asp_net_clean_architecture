@@ -21,22 +21,25 @@ namespace BookStore.Application.UseCase
 
         public async Task<Either<NotificationBase, Author>> CreateAuthor(CreateAuthorRequestDTO create)
         {
-            var author = await authorRepository.FindByName(create.FirstName, create.LastName);
-            if (author.IsLeft())
-                return new Left<NotificationBase, Author>(author.GetLeft());
+            var search = await authorRepository.FindByName(create.FirstName, create.LastName);
+            if (search.IsLeft())
+                return new Left<NotificationBase, Author>(search.GetLeft());
 
-            if(author.GetRight() != null)
+            if(search.GetRight() != null)
                 return new Left<NotificationBase, Author>(new AlreadyExistNotification());
 
-            author = await authorRepository.SaveAuthor(new Author
+            var author = new Author
             {
                 FirstName = create.FirstName,
                 LastName = create.LastName,
                 Description = create.Description,
                 Guid = Guid.NewGuid().ToString()
-            });
+            };
+            var result = await authorRepository.SaveAuthor(author);
+            if (result.IsLeft())
+                return new Left<NotificationBase, Author>(result.GetLeft());
 
-            return new Right<NotificationBase, Author>(author.GetRight());
+            return new Right<NotificationBase, Author>(author);
         }
 
         public async Task<Either<NotificationBase, IEnumerable<Author>>> GetAllAuthors()
@@ -53,6 +56,9 @@ namespace BookStore.Application.UseCase
             var author = await authorRepository.FindById(id);
             if (author.IsLeft())
                 return new Left<NotificationBase, Author>(author.GetLeft());
+
+            if(author.GetRight() == null)
+                return new Left<NotificationBase, Author>(new NotFoundNotification("Author Not Found"));
 
             return new Right<NotificationBase, Author>(author.GetRight());
         }

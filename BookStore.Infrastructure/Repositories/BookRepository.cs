@@ -24,7 +24,7 @@ namespace BookStore.Infrastructure.Repositories
             var sql = @"
                 INSERT INTO books 
                     (AuthorId, Guid, Title, Subtitle, Subject, CreatedAt, UpdatedAt) VALUES 
-                    (@AuthorId, @Guid, @Title, @Subtitle, @Subject, @Permission, @CreatedAt, @UpdatedAt)";
+                    (@AuthorId, @Guid, @Title, @Subtitle, @Subject, @CreatedAt, @UpdatedAt)";
 
             var parameters = new DynamicParameters();
             parameters.Add("@AuthorId", book.AuthorId, DbType.Int32);
@@ -69,15 +69,15 @@ namespace BookStore.Infrastructure.Repositories
         public async Task<Either<NotificationBase, Book>> FindById(int id)
         {
             var sql = @"SELECT * FROM books AS Book
-                        LEFT JOIN authors AS Author WHERE Book.AuthorId = Author.Id
-                        AND WHERE Book.Id = @Id";
+                        INNER JOIN authors AS Author ON Book.AuthorId = Author.Id
+                        WHERE Book.Id = @Id";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
 
             try
             {
-                var result = await dbContext.QueryAsync<Book, Author, Book>(sql, (book, author) =>
+                var result = await dbContext.QueryAsync<Book, Author, Book>(sql, parameters, (book, author) =>
                 {
                     book.Author = author;
                     return book;
@@ -93,15 +93,15 @@ namespace BookStore.Infrastructure.Repositories
         public async Task<Either<NotificationBase, Book>> FindByTitle(string title)
         {
             var sql = @"SELECT * FROM books AS Book
-                        LEFT JOIN authors AS Author WHERE Book.AuthorId = Author.Id
-                        AND WHERE Book.Title = @Title";
+                        INNER JOIN authors AS Author ON Book.AuthorId = Author.Id
+                        WHERE Book.Title = @Title";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Title", title, DbType.String);
 
             try
             {
-                var result = await dbContext.QueryAsync<Book, Author, Book>(sql, (book, author) =>
+                var result = await dbContext.QueryAsync<Book, Author, Book>(sql, parameters, (book, author) =>
                 {
                     book.Author = author;
                     return book;

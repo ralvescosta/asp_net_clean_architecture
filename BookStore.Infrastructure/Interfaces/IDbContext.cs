@@ -13,5 +13,6 @@ namespace BookStore.Infrastructure.Interfaces
         Task<IEnumerable<T>> QueryAsync<T>(string query, IDynamicParameters param);
 
         Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string query, Func<TFirst, TSecond, TReturn> map);
+        Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string query, IDynamicParameters param, Func<TFirst, TSecond, TReturn> map);
     }
 }
