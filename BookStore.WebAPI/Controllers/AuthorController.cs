@@ -89,11 +89,15 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateAnAuthorById(int id, [FromBody] UpdateAuthorRequestDTO update)
         {
-            var author = await authorUseCase.UpdateAnAuthorById(id, update);
-            if (author.IsLeft())
-                return Problem();
+            var result = await authorUseCase.UpdateAnAuthorById(id, update);
+            if (result.IsRight())
+                return Ok(result.GetRight());
 
-            return Ok();
+            return result.GetLeft().GetType() switch
+            {
+                Type t when t == typeof(NotFoundNotification) => NotFound(),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
 
         [HttpDelete("{id}")]
@@ -105,11 +109,15 @@ namespace BookStore.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteAnAuthor(int id)
         {
-            var author = await authorUseCase.DeleteAnAuthorById(id);
-            if (author.IsLeft())
-                return Problem();
+            var result = await authorUseCase.DeleteAnAuthorById(id);
+            if (result.IsRight())
+                return Ok(result.GetRight());
 
-            return Ok();
+            return result.GetLeft().GetType() switch
+            {
+                Type t when t == typeof(NotFoundNotification) => NotFound(),
+                _ => Problem("Internal Server Error", null, 500, "Internal Server Error", "Internal Server Error"),
+            };
         }
     }
 }
