@@ -33,7 +33,7 @@ namespace BookStore.Application.UseCase
                 Guid = Guid.NewGuid().ToString(),
                 UserId = borrowBook.UserId,
                 BookId = borrowBook.BookId,
-                EpiredAt = DateTime.Now.AddDays(maxBorrowedDays),
+                ExpiredAt = DateTime.Now.AddDays(maxBorrowedDays),
             };
             var result = await userBookRepository.SaveUserBook(userBook);
             if (result.IsLeft())

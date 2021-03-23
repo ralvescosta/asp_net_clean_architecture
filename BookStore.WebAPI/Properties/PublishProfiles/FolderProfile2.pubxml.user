@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\rafael\Desktop\projects\build</_PublishTargetUrl>
+    <History>True|2021-03-23T00:00:12.7828618Z;</History>
+  </PropertyGroup>
+</Project>
